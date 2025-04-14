@@ -1,0 +1,6 @@
+numpy                          # Library used for arrays
+pandas                         # Powerful data structures for data analysis, time series, and statistics.
+pip                            # The PyPA recommended tool for installing Python packages.
+pyyaml                         # Yaml for python
+sympy                          # Symbolic mathematics
+pathlib                        # Filesystem paths
