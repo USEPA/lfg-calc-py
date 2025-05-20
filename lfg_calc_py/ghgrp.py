@@ -1,5 +1,7 @@
 """
 Download GHGRP tables via StEWI
+https://enviro.epa.gov/query-builder/ghg/SUBPART%20HH%20-%20MUNICIPAL%20SOLID%20WASTE%20LANDFILLS/
+
 """
 import pandas as pd
 from stewi.GHGRP import import_or_download_table, OUTPUT_PATH, MetaGHGRP, ghgrp_cols
