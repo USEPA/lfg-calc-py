@@ -1,24 +1,26 @@
 """
-Setup for lfg-calc-py package
+Setup for landfill package
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    name='lfg_calc_py',
+    name='landfill',
     version='0.0.1',
-    packages=['lfg-calc-py'],
+    packages=find_packages(),
+    package_dir={'landfill': 'landfill'},
     include_package_data=True,
-    python_requires=">=3.9",
+    python_requires=">=3.11",
     install_requires=[
-        'numpy',
-        'pandas',
-        'pip',
-        'pyyaml',
-        'sympy',
-        'pathlib'
+        'StEWI @ git+https://github.com/USEPA/standardizedinventories.git#egg=StEWI',
+        'numpy>=2.2.4',
+        'pandas>=2.2.3',
+        'pip>=23.2.1',
+        'pyyaml>=6.0.2',
+        'sympy>=1.13.3',
+        'pathlib>=1.0.1'
     ],
-    url='https://github.com/USEPA/lfg-calc-py',
+    url='https://github.com/USEPA/FLOWSA',
     license='MIT',
     author='Katherine Latoff, Catherine Birney, Andrew Beck, Max Krause, and Wesley '
            'Ingwersen',

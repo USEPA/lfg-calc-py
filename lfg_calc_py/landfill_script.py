@@ -1,11 +1,14 @@
 import numpy as np
 import pandas as pd
-from pathlib import Path
 import yaml
-MODULEPATH = Path(__file__).resolve().parent
-datapath = MODULEPATH / 'methods'
+from sympy import exp, symbols
+from lfg_calc_py.settings import methodpath, datapath
+#from lfg_calc_py.ghgrp import return_ghgrp_data
 
-with open(datapath / 'Landfill_Example.yaml') as file:
+with open(datapath/'IPCC_Waste_specific_k-values.csv') as file:
+    waste_specific_k_df = pd.read_csv(file)
+
+with open(methodpath / 'Landfill_Example.yaml') as file:
     landfill_yaml = yaml.safe_load(file)
 
 # All variable names and units are derived from USEPA's LandGEM tool.
@@ -15,8 +18,11 @@ with open(datapath / 'Landfill_Example.yaml') as file:
 waste_rate = landfill_yaml.get("waste_acceptance_rate")
 start_year = landfill_yaml.get("landfill_open")
 landfill_capacity = landfill_yaml.get("landfill_capacity")
-LO = landfill_yaml.get("LO")
+degradable_organic_carbon = landfill_yaml.get("degradable_organic_carbon")
+degradable_organic_carbon_fraction = landfill_yaml.get("degradable_organic_carbon_fraction")
 k = landfill_yaml.get("k")
+methane_correction_factor = landfill_yaml.get("methane_correction_factor")
+methane_content = landfill_yaml.get("methane_content")
 
 if "calc_year" in landfill_yaml:
     calc_year = landfill_yaml.get("calc_year")
@@ -25,7 +31,8 @@ elif "landfill_close" in landfill_yaml:
 else:
     print("ERROR: Define calc_year or landfill_close in landfill_yaml")
 
-n = calc_year - start_year
+T = calc_year - start_year
+x = symbols('x')
 
 # empty dictionary
 waste_rate_split = {}
@@ -43,9 +50,12 @@ for key, value in waste_rate.items():
 
 # convert expanded dictionary into df
 waste_rate_df = pd.DataFrame(waste_rate_split.items(), columns = ['Year', 'WasteAcceptanceRate'])
+# set datatypes
+waste_rate_df['Year'] = waste_rate_df['Year'].astype(int)
+waste_rate_df['WasteAcceptanceRate'] = waste_rate_df['WasteAcceptanceRate'].astype(float)
 
 # subset waste acceptance rate df to include years up-to and including calc year
-waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'].astype(int) <= calc_year]
+waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
 
 # To get waste acceptance rates for years of calculation
 current_capacity = sum(waste_rate_df_subset['WasteAcceptanceRate'])
@@ -70,21 +80,39 @@ def check_k(k):
 check_if_landfill_is_full(current_capacity)
 check_k(k)
 
+def return_waste_acceptance(year):
+    """
+    Return the waste acceptance for a year, return 0 value if no waste managed that year
+    :param year:
+    :return:
+    """
+    try:
+        return float(waste_rate_df_subset.loc[
+                         waste_rate_df_subset['Year'] == year, 'WasteAcceptanceRate'].values[0])
+    except IndexError:
+        return 0
 
-M = 20665
-
-# Initial methane gen
+# Methane calculation
 methane_total = 0.0
+methane_annual = 0.0
+methane_df = pd.DataFrame()
 
-for i in range(0, n + 1):
-    methane_annual = 0.0  # beginning annual methane is 0 before steps
+# Range upper limit in summation is 1 higher than IPCC equation
+# due to range function in Python
 
-    for j in np.arange(0, 1, 0.1):
-        methane_annual += k * LO * (M / 10) * np.exp(-k * (i+j))
+for x in range(0, T):
+    methane_annual = (return_waste_acceptance(start_year + x)
+    * methane_correction_factor
+    * degradable_organic_carbon
+    * degradable_organic_carbon_fraction
+    * methane_content
+    * 16/12
+    * (exp(-k*(T-x-1)) - exp(-k*(T-x)))
+    )
 
-    methane_total += methane_annual  # tot methane gen
-    print(f"year {i} = {methane_annual:.3E}")
+    methane_total += methane_annual
+    print(f"{methane_total} for {start_year + x}")
 
-# Print final computed methane generation
-print(f"total methane gen: {methane_total:.3E}")
+print(f"Total methane generation in year {calc_year}: {methane_total} tonnes CH4")
+
 

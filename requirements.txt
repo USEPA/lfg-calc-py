@@ -1,6 +1,7 @@
-numpy                          # Library used for arrays
-pandas                         # Powerful data structures for data analysis, time series, and statistics.
-pip                            # The PyPA recommended tool for installing Python packages.
-pyyaml                         # Yaml for python
-sympy                          # Symbolic mathematics
-pathlib                        # Filesystem paths
+git+https://github.com/USEPA/standardizedinventories.git#egg=StEWI
+numpy >= 2.2.4             # Library used for arrays
+pandas >= 2.2.3            # Powerful data structures for data analysis, time series, and statistics.
+pip >= 23.2.1              # The PyPA recommended tool for installing Python packages.
+pyyaml >= 6.0.2            # Yaml for python
+sympy >= 1.13.3            # Symbolic mathematics
+pathlib >= 1.0.1           # Filesystem paths

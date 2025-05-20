@@ -1,5 +1,7 @@
 # Example landfill emission model
 
+#import_ghgrp_data: False # option to import ghgrp data from stewi
+#use_default_parameters: True # option to use default parameters set in an excel
 landfill_name: Kekaha Landfill
 GHGRP_ID: 1000216
 landfill_open: 1960
@@ -32,7 +34,13 @@ waste_acceptance_rate: {'1960 - 1992': 20665,
                         '2022': 79675,
                         '2023': 80247}
 landfill_capacity: 3200000 # Landfill maximum waste design capacity, Mg
+# use_default_decay_rates: False  # draft decay rate import, not implemented
 k: 0.05 # Methane generation rate, 1/year
-LO: 170 # Potential methane generation capacity, m^3/Mg
-methane_content: 0.50 # Methane content, % by volume
-calc_year: 1975
+degradable_organic_carbon: 0.17 # fractional amount of degradable organic carbon in the year of
+# deposition, Mg C / Mg waste
+degradable_organic_carbon_fraction: 0.5 # fraction of the degradable organic carbon that can be
+# decomposed
+methane_content: 0.50 # Fraction by volume of methane in the landfill gas
+calc_year: 2024
+methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic decomposition in the
+# year of deposition
