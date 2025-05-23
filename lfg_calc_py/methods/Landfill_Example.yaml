@@ -44,3 +44,11 @@ methane_content: 0.50 # Fraction by volume of methane in the landfill gas
 calc_year: 2024
 methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic decomposition in the
 # year of deposition
+
+material_ratios:
+  food: 0.25
+  paper: 0.75
+
+methane_generation_rates:
+  food: 0.03
+  paper: 0.07
