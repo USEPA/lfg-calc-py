@@ -1,9 +1,8 @@
-import numpy as np
 import pandas as pd
 import yaml
 from sympy import exp, symbols
 from lfg_calc_py.settings import methodpath, datapath, emissionoutputpath
-from lfg_calc_py.ghgrp import return_ghgrp_data
+from lfg_calc_py.validation import check_if_landfill_is_full
 
 with open(datapath/'IPCC_Waste_specific_k-values.csv') as file:
     IPCC_waste_specific_k_df = pd.read_csv(file)
@@ -86,11 +85,6 @@ current_capacity = sum(waste_rate_df_subset['WasteAcceptanceRate'])
 # TODO: add check to match waste type of methane gen values with material ratios (so they align)
 
 # Checking to see if landfill has reached max capacity for the year of calculation
-def check_if_landfill_is_full(current_capacity):
-    if 0 < current_capacity < landfill_capacity:
-        return current_capacity
-    else:
-        raise ValueError("The landfill is over its maximum waste capacity")
 
 # Checking to see if k is within accepted limits
 def check_k(k): #TODO: update function to pull from dataframe
