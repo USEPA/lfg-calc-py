@@ -76,8 +76,7 @@ waste_rate_df['WasteAcceptanceRate'] = waste_rate_df['WasteAcceptanceRate'].asty
 waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
 
 # add material ratios
-waste_rate_type_df = []
-pd concat
+material_type_list = list(material_ratios.keys())
 
 # To get waste acceptance rates for years of calculation
 current_capacity = sum(waste_rate_df_subset['WasteAcceptanceRate'])
@@ -142,7 +141,7 @@ methane_df = pd.DataFrame()
 
 
 for x in range(0, T):
-    for material in material_ratio_df: #TODO: make this iterate for each material type? Connect material ratio
+    for material in material_type_list: #TODO: make this iterate for each material type? Connect material ratio
         # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
         methane_annual = (return_material_ratio(material)
         * (return_waste_acceptance(start_year + x)
