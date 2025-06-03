@@ -1,41 +1,61 @@
 ﻿Degradation rate,Type of Waste,Climate Zone,Precipitation,Default/Range,Methane Generation Rate (k)
 Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Default,0.04
-Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Range,0.03-0.05
+Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Low,0.03
+Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),High,0.05
 Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Default,0.06
-Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Range,0.05-0.07
+Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Low,0.05
+Slow,Paper/textiles waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),High,0.07
 Slow,Paper/textiles waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Default,0.045
-Slow,Paper/textiles waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Range,0.04-0.06
+Slow,Paper/textiles waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Low,0.04-0.06
+Slow,Paper/textiles waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),High,0.06
 Slow,Paper/textiles waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Default,0.07
-Slow,Paper/textiles waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Range,0.06-0.085
+Slow,Paper/textiles waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Low,0.06
+Slow,Paper/textiles waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),High,0.085
 Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Default,0.02
-Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Range,0.01-0.03
+Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Range,0.01
+Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),High,0.03
 Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Default,0.03
-Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Range,0.02-0.04
+Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Low,0.02
+Slow,Wood/straw waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),High,0.04
 Slow,Wood/straw waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Default,0.025
-Slow,Wood/straw waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Range,0.02-0.04
+Slow,Wood/straw waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Low,0.02
+Slow,Wood/straw waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),High,0.04
 Slow,Wood/straw waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Default,0.035
-Slow,Wood/straw waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Range,0.03-0.05
+Slow,Wood/straw waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Low,0.03
+Slow,Wood/straw waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),High,0.05
 Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Default,0.05
-Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Range,0.04-0.06
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Low,0.04
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),0.06
 Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Default,0.1
-Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Range,0.06-0.1
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Low,0.06
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),High,0.1
 Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Default,0.065
-Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Range,0.05-0.08
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Low,0.05
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),High,0.08
 Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Default,0.17
-Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Range,0.15-0.2
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Low,0.15
+Moderate,Other (non-food) organic putrescible/Garden and park waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),High,0.2
 Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Default,0.06
-Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Range,0.05-0.08
+Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Low,0.05
+Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),High,0.08
 Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Default,0.185
-Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Range,0.1-0.2
+Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Low,0.1
+Rapid,Food waste/Sewage sludge,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),High,0.2
 Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Default,0.085
-Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Range,0.07-0.1
+Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Low,0.07
+Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Dry (MAP < 1000 mm),High,0.1
 Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Default,0.4
-Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Range,0.17-0.7
+Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Low,0.17
+Rapid,Food waste/Sewage sludge,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),High,0.7
 N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Default,0.05
-N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Range,0.04-0.06
+N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),Low,0.04
+N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Dry (MAP/PET < 1),High,0.06
 N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Default,0.09
-N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Range,0.08-0.1
+N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),Low,0.08
+N/A,Bulk waste,Boreal and temperate (MAT <= 20C),Wet (MAP/PET > 1),High,0.1
 N/A,Bulk waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Default,0.065
-N/A,Bulk waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Range,0.05-0.08
+N/A,Bulk waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),Low,0.05
+N/A,Bulk waste,Tropical (MAT > 20C),Dry (MAP < 1000 mm),High,0.08
 N/A,Bulk waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Default,0.17
-N/A,Bulk waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Range,0.15-0.2
+N/A,Bulk waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),Low,0.15
+N/A,Bulk waste,Tropical (MAT > 20C),Moist and Wet (MAP >= 20C),High,0.2
