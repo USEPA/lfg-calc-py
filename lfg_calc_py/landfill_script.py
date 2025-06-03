@@ -6,7 +6,9 @@ from lfg_calc_py.settings import methodpath, datapath
 from lfg_calc_py.ghgrp import return_ghgrp_data
 
 with open(datapath/'IPCC_Waste_specific_k-values.csv') as file:
-    waste_specific_k_df = pd.read_csv(file)
+    IPCC_waste_specific_k_df = pd.read_csv(file)
+with open(datapath/'WARM_Barlaz_Material_Decay_Rates.csv') as file:
+    Barlaz_waste_specific_k_df = pd.read_csv(file)
 
 with open(methodpath / 'Landfill_Example.yaml') as file:
     landfill_yaml = yaml.safe_load(file)
@@ -37,6 +39,7 @@ x = symbols('x')
 
 # empty dictionary
 waste_rate_split = {}
+material_ratio_split = {}
 
 for key, value in waste_rate.items():
     # if data is provided as a range, split the range and add waste acceptance for each year to new dictionary
@@ -48,10 +51,21 @@ for key, value in waste_rate.items():
     else:
         waste_rate_split[str(key)] = value
 
+for key, value in material_ratios.items():
+    # if data is provided as a range, split the range and add waste acceptance for each year to new dictionary
+    if "-" in key:
+        y1, y2 = map(int, key.split("-"))
+        for year in range(y1, y2 + 1):
+            material_ratio_split[str(year)] = value
+    # else if entry is a single value, append to new dictionary as-is
+    else:
+        material_ratio_split[str(key)] = value
+#TODO: ensure the key corresponds to year, not waste type
 
 # convert expanded dictionary into df
 waste_rate_df = pd.DataFrame(waste_rate_split.items(), columns = ['Year', 'WasteAcceptanceRate'])
 material_ratio_df = pd.DataFrame(material_ratios.items(), columns = ['Waste Type', 'Waste Fraction'])
+#TODO: add third column to material ratio df for year?
 methane_generation_rates_df = pd.DataFrame(methane_generation_rates.items(),
                                            columns = ['Waste Type', 'Methane Generation Rate'])
 # set datatypes
@@ -60,6 +74,10 @@ waste_rate_df['WasteAcceptanceRate'] = waste_rate_df['WasteAcceptanceRate'].asty
 
 # subset waste acceptance rate df to include years up-to and including calc year
 waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
+
+# add material ratios
+waste_rate_type_df = []
+pd concat
 
 # To get waste acceptance rates for years of calculation
 current_capacity = sum(waste_rate_df_subset['WasteAcceptanceRate'])
