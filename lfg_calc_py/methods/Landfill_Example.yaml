@@ -46,7 +46,9 @@ methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic 
 # year of deposition
 
 material_ratios:
-  food: 0.25
+  food:
+    "1960-2018": 0.25
+    "2018-2023": 0.23
   paper: 0.75
 
 methane_generation_rates:
