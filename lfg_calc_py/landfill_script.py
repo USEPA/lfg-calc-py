@@ -1,9 +1,8 @@
-import numpy as np
 import pandas as pd
 import yaml
 from sympy import exp, symbols
-from lfg_calc_py.settings import methodpath, datapath
-from lfg_calc_py.ghgrp import return_ghgrp_data
+from lfg_calc_py.settings import methodpath, datapath, emissionoutputpath
+from lfg_calc_py.validation import check_if_landfill_is_full
 
 with open(datapath/'IPCC_Waste_specific_k-values.csv') as file:
     IPCC_waste_specific_k_df = pd.read_csv(file)
@@ -86,11 +85,6 @@ current_capacity = sum(waste_rate_df_subset['WasteAcceptanceRate'])
 # TODO: add check to match waste type of methane gen values with material ratios (so they align)
 
 # Checking to see if landfill has reached max capacity for the year of calculation
-def check_if_landfill_is_full(current_capacity):
-    if 0 < current_capacity < landfill_capacity:
-        return current_capacity
-    else:
-        raise ValueError("The landfill is over its maximum waste capacity")
 
 # Checking to see if k is within accepted limits
 def check_k(k): #TODO: update function to pull from dataframe
@@ -132,31 +126,48 @@ def return_material_ratio(material):
             material_ratio_df['Waste Type'] == material, 'Waste Fraction'].values[0])
 
 # Methane calculation
-methane_total = 0.0
+# methane_total = 0.0
 methane_annual = 0.0
 methane_df = pd.DataFrame()
 
 # Range upper limit in summation is 1 higher than IPCC equation
 # due to range function in Python
 
+# empty data
+emissions_data = []
+methane_totals = {material: 0.0 for material in material_type_list}  # Track cumulative totals per material
 
 for x in range(0, T):
+    row = {"Year": start_year + x}
     for material in material_type_list: #TODO: make this iterate for each material type? Connect material ratio
         # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
-        methane_annual = (return_material_ratio(material)
-        * (return_waste_acceptance(start_year + x)
-        * methane_correction_factor
-        * degradable_organic_carbon
-        * degradable_organic_carbon_fraction
-        * methane_content
-        * 16/12
-        * (exp(-return_methane_generation_rates(material)*(T-x-1))
-        - exp(-return_methane_generation_rates(material)*(T-x)))
-        ))
+        methane_annual = (
+                return_material_ratio(material)
+                * (return_waste_acceptance(start_year + x)
+                   * methane_correction_factor
+                   * degradable_organic_carbon
+                   * degradable_organic_carbon_fraction
+                   * methane_content
+                   * 16/12
+                   * (exp(-return_methane_generation_rates(material)*(T-x-1))
+                      - exp(-return_methane_generation_rates(material)*(T-x)))
+                   )
+        )
+        methane_totals[material] += methane_annual  # cumulative total for material
+        row[f"{material} Methane Annual"] = methane_annual  # annual value
+        row[f"{material} Methane Total"] = methane_totals[material]  # cumulative
+        # todo: add new row item for unit
+        # todo: new columns for summed materials
 
-    methane_total += methane_annual
-    print(f"{methane_total} for {start_year + x}")
+    emissions_data.append(row)  # Append row data to list
 
-print(f"Total methane generation in year {calc_year}: {methane_total} tonnes CH4")
+
+df = pd.DataFrame(emissions_data)
+# todo: update file name to be method file name
+df.to_csv(f"{emissionoutputpath}/emission_output.csv", index=False)
+
+
+
+# print(f"Total methane generation in year {calc_year}: {methane_total} tonnes CH4")
 
 
