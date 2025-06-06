@@ -1,23 +1,85 @@
-Material,Landfill moisture conditions,,,
-,Dry (k=0.02),Average (k = 0.04),Wet (k = 0.08),Bioreactor (k = 0.12)
-Branches,0.008,0.015,0.03,0.045
-Grass,0.149,0.298,0.596,0.894
-Leaves,0.086,0.171,0.342,0.513
-Food Waste,0.072,0.144,0.288,0.432
-Corrugated Containers,0.01,0.02,0.04,0.06
-Magazines/Third-class Mail,0.061,0.122,0.244,0.366
-Newspaper,0.017,0.033,0.066,0.099
-Office Paper,0.015,0.029,0.058,0.087
-Phonebooks,0.017,0.033,0.066,0.099
-Textbooks,0.015,0.029,0.058,0.087
-Dimensional Lumber,0.041,0.082,0.164,0.246
-Medium-density Fiberboard,0.032,0.064,0.129,0.193
-Wood Flooring,0.016,0.033,0.065,0.098
-Mixed MSW,0.02,0.04,0.08,0.12
-Average of newspaper and office paper,0.016,0.031,0.062,0.093
-Mixed Paper (general),0.017,0.033,0.066,0.099
-Mixed Paper (primarily residential),0.017,0.034,0.069,0.103
-Mixed Paper (primarily from offices),0.032,0.063,0.126,0.189
-Yard trimmings,0.098,0.196,0.391,0.587
-Mixed organics,0.084,0.168,0.336,0.504
-Mixed Recyclables,0.013,0.026,0.052,0.078
+Material,Landfill_Moisture_Condition,Value
+Average of newspaper and office paper,Dry (k=0.02),0.016
+Average of newspaper and office paper,Average (k = 0.04),0.031
+Average of newspaper and office paper,Wet (k = 0.08),0.062
+Average of newspaper and office paper,Bioreactor (k = 0.12),0.093
+Branches,Dry (k=0.02),0.008
+Branches,Average (k = 0.04),0.015
+Branches,Wet (k = 0.08),0.03
+Branches,Bioreactor (k = 0.12),0.045
+Corrugated Containers,Dry (k=0.02),0.01
+Corrugated Containers,Average (k = 0.04),0.02
+Corrugated Containers,Wet (k = 0.08),0.04
+Corrugated Containers,Bioreactor (k = 0.12),0.06
+Dimensional Lumber,Dry (k=0.02),0.041
+Dimensional Lumber,Average (k = 0.04),0.082
+Dimensional Lumber,Wet (k = 0.08),0.164
+Dimensional Lumber,Bioreactor (k = 0.12),0.246
+Food Waste,Dry (k=0.02),0.072
+Food Waste,Average (k = 0.04),0.144
+Food Waste,Wet (k = 0.08),0.288
+Food Waste,Bioreactor (k = 0.12),0.432
+Grass,Dry (k=0.02),0.149
+Grass,Average (k = 0.04),0.298
+Grass,Wet (k = 0.08),0.596
+Grass,Bioreactor (k = 0.12),0.894
+Leaves,Dry (k=0.02),0.086
+Leaves,Average (k = 0.04),0.171
+Leaves,Wet (k = 0.08),0.342
+Leaves,Bioreactor (k = 0.12),0.513
+Magazines/Third-class Mail,Dry (k=0.02),0.061
+Magazines/Third-class Mail,Average (k = 0.04),0.122
+Magazines/Third-class Mail,Wet (k = 0.08),0.244
+Magazines/Third-class Mail,Bioreactor (k = 0.12),0.366
+Medium-density Fiberboard,Dry (k=0.02),0.032
+Medium-density Fiberboard,Average (k = 0.04),0.064
+Medium-density Fiberboard,Wet (k = 0.08),0.129
+Medium-density Fiberboard,Bioreactor (k = 0.12),0.193
+Mixed MSW,Dry (k=0.02),0.02
+Mixed MSW,Average (k = 0.04),0.04
+Mixed MSW,Wet (k = 0.08),0.08
+Mixed MSW,Bioreactor (k = 0.12),0.12
+Mixed Paper (general),Dry (k=0.02),0.017
+Mixed Paper (general),Average (k = 0.04),0.033
+Mixed Paper (general),Wet (k = 0.08),0.066
+Mixed Paper (general),Bioreactor (k = 0.12),0.099
+Mixed Paper (primarily from offices),Dry (k=0.02),0.032
+Mixed Paper (primarily from offices),Average (k = 0.04),0.063
+Mixed Paper (primarily from offices),Wet (k = 0.08),0.126
+Mixed Paper (primarily from offices),Bioreactor (k = 0.12),0.189
+Mixed Paper (primarily residential),Dry (k=0.02),0.017
+Mixed Paper (primarily residential),Average (k = 0.04),0.034
+Mixed Paper (primarily residential),Wet (k = 0.08),0.069
+Mixed Paper (primarily residential),Bioreactor (k = 0.12),0.103
+Mixed Recyclables,Dry (k=0.02),0.013
+Mixed Recyclables,Average (k = 0.04),0.026
+Mixed Recyclables,Wet (k = 0.08),0.052
+Mixed Recyclables,Bioreactor (k = 0.12),0.078
+Mixed organics,Dry (k=0.02),0.084
+Mixed organics,Average (k = 0.04),0.168
+Mixed organics,Wet (k = 0.08),0.336
+Mixed organics,Bioreactor (k = 0.12),0.504
+Newspaper,Dry (k=0.02),0.017
+Newspaper,Average (k = 0.04),0.033
+Newspaper,Wet (k = 0.08),0.066
+Newspaper,Bioreactor (k = 0.12),0.099
+Office Paper,Dry (k=0.02),0.015
+Office Paper,Average (k = 0.04),0.029
+Office Paper,Wet (k = 0.08),0.058
+Office Paper,Bioreactor (k = 0.12),0.087
+Phonebooks,Dry (k=0.02),0.017
+Phonebooks,Average (k = 0.04),0.033
+Phonebooks,Wet (k = 0.08),0.066
+Phonebooks,Bioreactor (k = 0.12),0.099
+Textbooks,Dry (k=0.02),0.015
+Textbooks,Average (k = 0.04),0.029
+Textbooks,Wet (k = 0.08),0.058
+Textbooks,Bioreactor (k = 0.12),0.087
+Wood Flooring,Dry (k=0.02),0.016
+Wood Flooring,Average (k = 0.04),0.033
+Wood Flooring,Wet (k = 0.08),0.065
+Wood Flooring,Bioreactor (k = 0.12),0.098
+Yard trimmings,Dry (k=0.02),0.098
+Yard trimmings,Average (k = 0.04),0.196
+Yard trimmings,Wet (k = 0.08),0.391
+Yard trimmings,Bioreactor (k = 0.12),0.587
