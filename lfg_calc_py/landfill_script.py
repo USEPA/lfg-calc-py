@@ -84,14 +84,7 @@ current_capacity = sum(waste_rate_df_subset['WasteAcceptanceRate'])
 
 # TODO: add check to match waste type of methane gen values with material ratios (so they align)
 
-# Checking to see if landfill has reached max capacity for the year of calculation
 
-# Checking to see if k is within accepted limits
-def check_k(k): #TODO: update function to pull from dataframe
-    if 0 < k < 0.5:
-        return k
-    else:
-        raise ValueError("The methane generation rate constant k is outside conventional parameters")
 
 # Calling the parameter functions
 check_if_landfill_is_full(current_capacity)
