@@ -55,3 +55,7 @@ material_ratios:
 methane_generation_rates:
   food: 0.1
   paper: 0.07
+
+# landfill gas recovery options
+LFG: False # False, recover_energy, flare
+LFG_collection_efficiency: False # False, typical, worst_case, aggressive, california

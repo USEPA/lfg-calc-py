@@ -125,6 +125,17 @@ def return_material_ratio(material):
     return float(material_ratio_df.loc[
             material_ratio_df['Waste Type'] == material, 'Waste Fraction'].values[0])
 
+
+def return_gas_collection_efficiency(material):
+    """
+    Return gas collection efficiency by material and year
+    :return:
+    """
+    # load csv of material by year efficiencies
+    # subset by material
+    # return for year
+    return df
+
 # Methane calculation
 # methane_total = 0.0
 methane_annual = 0.0
