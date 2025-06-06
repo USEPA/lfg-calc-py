@@ -2,12 +2,9 @@ import pandas as pd
 import yaml
 from sympy import exp, symbols
 from lfg_calc_py.settings import methodpath, datapath, emissionoutputpath
-from lfg_calc_py.validation import check_if_landfill_is_full
+# from lfg_calc_py.validation import check_if_landfill_is_full
 
-with open(datapath/'IPCC_Waste_specific_k-values.csv') as file:
-    IPCC_waste_specific_k_df = pd.read_csv(file)
-with open(datapath/'WARM_Barlaz_Material_Decay_Rates.csv') as file:
-    Barlaz_waste_specific_k_df = pd.read_csv(file)
+
 
 with open(methodpath / 'Landfill_Example.yaml') as file:
     landfill_yaml = yaml.safe_load(file)
@@ -25,6 +22,17 @@ material_ratios = landfill_yaml.get("material_ratios")
 methane_generation_rates = landfill_yaml.get("methane_generation_rates")
 methane_correction_factor = landfill_yaml.get("methane_correction_factor")
 methane_content = landfill_yaml.get("methane_content")
+
+# todo: modify to account for "false"/no default data/all user input data
+def load_default_decay_rates():
+    source = landfill_yaml.get("default_k_values")
+    if source == "IPCC":
+        path = datapath/'IPCC_Waste_specific_k-values.csv'
+    elif source == "Barlaz":
+        path = datapath/'WARM_Barlaz_Material_Decay_Rates.csv'
+    with open(path) as file:
+        decay_rates = pd.read_csv(file)
+    return decay_rates
 
 if "calc_year" in landfill_yaml:
     calc_year = landfill_yaml.get("calc_year")

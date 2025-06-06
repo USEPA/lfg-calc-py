@@ -52,6 +52,9 @@ material_ratios:
     #"2018-2023": 0.23
   paper: 0.75
 
+# decay rates (k values)
+default_k_values: Barlaz # False, IPCC, Barlaz
+# override default decay rates
 methane_generation_rates:
   food: 0.1
   paper: 0.07
