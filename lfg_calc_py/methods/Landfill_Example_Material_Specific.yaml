@@ -1,9 +1,10 @@
-# Example landfill emission model
+# Example landfill emission model with material specific waste acceptance and decay rates
+# for food and paper
 
-#import_ghgrp_data: False # option to import ghgrp data from stewi
-#use_default_parameters: True # option to use default parameters set in an excel
+## Landfill characteristics
 landfill_name: Kekaha Landfill
-GHGRP_ID: 1000216
+GHGRP_ID: 1000216  # required if want to use landfill-specific characteristics
+# import_ghgrp_data: False  # True, False - option to import ghgrp data from stewi
 landfill_open: 1960
 landfill_close: 2027
 max_years: 80 # Maximum number of years for which the landfill may accept waste
@@ -34,31 +35,37 @@ waste_acceptance_rate: {'1960 - 1992': 20665,
                         '2022': 79675,
                         '2023': 80247}
 landfill_capacity: 3200000 # Landfill maximum waste design capacity, Mg
-# use_default_decay_rates: False  # draft decay rate import, not implemented
-k: 0.05 # Methane generation rate, 1/year
+
+## Model Parameters
+# use_default_model_parameters: False  # True, False
 degradable_organic_carbon: 0.17 # fractional amount of degradable organic carbon in the year of
 # deposition, Mg C / Mg waste
 degradable_organic_carbon_fraction: 0.5 # fraction of the degradable organic carbon that can be
 # decomposed
 methane_content: 0.50 # Fraction by volume of methane in the landfill gas
-calc_year: 2024
 methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic decomposition in the
 # year of deposition
+calc_year: 2024
 
+# Fraction of annual waste by material
 material_ratios:
   food: 0.25
     # incorporate year later
     #"1960-2018": 0.25
     #"2018-2023": 0.23
   paper: 0.75
+    #"1960-2018": 0.75
+    #"2018-2023": 0.77
 
-# decay rates (k values)
-default_k_values: Barlaz # False, IPCC, Barlaz
-# override default decay rates
-methane_generation_rates:
+## Decay Rates (k Values)
+# use_default_decay_rates: False  # True, False - draft decay rate import, not implemented
+default_k_values: Barlaz  # False, IPCC, Barlaz
+#k: 0.05  # Methane generation rate, 1/year
+# override default decay rates or user provides all decay rates
+methane_generation_rates:  #todo: modify parameter name to material_decay_rates
   food: 0.1
   paper: 0.07
 
-# landfill gas recovery options
-LFG: False # False, recover_energy, flare
-LFG_collection_efficiency: False # False, typical, worst_case, aggressive, california
+## Landfill Gas Recovery Options
+LFG: False  # False, recover_energy, flare
+LFG_collection_efficiency: False  # False, typical, worst_case, aggressive, california
