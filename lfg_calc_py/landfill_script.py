@@ -5,27 +5,34 @@ from lfg_calc_py.settings import methodpath, datapath, emissionoutputpath
 # from lfg_calc_py.validation import check_if_landfill_is_full
 
 
+# def return_method_yaml(method_name):
+#     with open(f"{methodpath}/{method_name}.yaml") as file:
+#         method_yaml = yaml.safe_load(file)
+#     return method_yaml
 
-with open(methodpath / 'Landfill_Example.yaml') as file:
-    landfill_yaml = yaml.safe_load(file)
+method_name = 'Landfill_Example_Material_Specific'
+
+with open(f"{methodpath}/{method_name}.yaml") as file:
+    method_yaml = yaml.safe_load(file)
+
 
 # All variable names and units are derived from USEPA's LandGEM tool.
 
 # Defining variables from yaml
 
-waste_rate = landfill_yaml.get("waste_acceptance_rate")
-start_year = landfill_yaml.get("landfill_open")
-landfill_capacity = landfill_yaml.get("landfill_capacity")
-degradable_organic_carbon = landfill_yaml.get("degradable_organic_carbon")
-degradable_organic_carbon_fraction = landfill_yaml.get("degradable_organic_carbon_fraction")
-material_ratios = landfill_yaml.get("material_ratios")
-methane_generation_rates = landfill_yaml.get("methane_generation_rates")
-methane_correction_factor = landfill_yaml.get("methane_correction_factor")
-methane_content = landfill_yaml.get("methane_content")
+waste_rate = method_yaml.get("waste_acceptance_rate")
+start_year = method_yaml.get("landfill_open")
+landfill_capacity = method_yaml.get("landfill_capacity")
+degradable_organic_carbon = method_yaml.get("degradable_organic_carbon")
+degradable_organic_carbon_fraction = method_yaml.get("degradable_organic_carbon_fraction")
+material_ratios = method_yaml.get("material_ratios")
+methane_generation_rates = method_yaml.get("methane_generation_rates")
+methane_correction_factor = method_yaml.get("methane_correction_factor")
+methane_content = method_yaml.get("methane_content")
 
 # todo: modify to account for "false"/no default data/all user input data
 def load_default_decay_rates():
-    source = landfill_yaml.get("default_k_values")
+    source = method_yaml.get("default_k_values")
     if source == "IPCC":
         path = datapath/'IPCC_Waste_specific_k-values.csv'
     elif source == "Barlaz":
@@ -34,12 +41,12 @@ def load_default_decay_rates():
         decay_rates = pd.read_csv(file)
     return decay_rates
 
-if "calc_year" in landfill_yaml:
-    calc_year = landfill_yaml.get("calc_year")
-elif "landfill_close" in landfill_yaml:
-    calc_year = landfill_yaml.get("landfill_close")
+if "calc_year" in method_yaml:
+    calc_year = method_yaml.get("calc_year")
+elif "landfill_close" in method_yaml:
+    calc_year = method_yaml.get("landfill_close")
 else:
-    print("ERROR: Define calc_year or landfill_close in landfill_yaml")
+    print("ERROR: Define calc_year or landfill_close in method_yaml")
 
 T = calc_year - start_year
 x = symbols('x')
@@ -147,8 +154,11 @@ methane_df = pd.DataFrame()
 
 # empty data
 emissions_data = []
-methane_totals = {material: 0.0 for material in material_type_list}  # Track cumulative totals per material
+# Initial cumulative methane totals are 0 for each material
+methane_totals = {material: 0.0 for material in material_type_list}
 
+# Range upper limit in summation is 1 higher than IPCC equation
+# due to range function in Python
 for x in range(0, T):
     row = {"Year": start_year + x}
     for material in material_type_list: #TODO: make this iterate for each material type? Connect material ratio
@@ -176,7 +186,9 @@ for x in range(0, T):
 
 df = pd.DataFrame(emissions_data)
 # todo: update file name to be method file name
-df.to_csv(f"{emissionoutputpath}/emission_output.csv", index=False)
+df.to_csv(f"{emissionoutputpath}/{method_name}.csv", index=False)
+
+    # return df
 
 
 
