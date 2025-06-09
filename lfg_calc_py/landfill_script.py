@@ -102,7 +102,7 @@ current_capacity = sum(waste_rate_df_subset['WasteAcceptanceRate'])
 
 
 # Calling the parameter functions
-check_if_landfill_is_full(current_capacity)
+# check_if_landfill_is_full(current_capacity)
 # check_k(k)
 
 def return_waste_acceptance(year):
@@ -144,13 +144,13 @@ def return_gas_collection_efficiency(material):
     # return for year
     return df
 
+# todo: first year emissions out of landfill should be 0
+
+# def calculate_landfill_emissions(method_name):
 # Methane calculation
 # methane_total = 0.0
 methane_annual = 0.0
 methane_df = pd.DataFrame()
-
-# Range upper limit in summation is 1 higher than IPCC equation
-# due to range function in Python
 
 # empty data
 emissions_data = []
@@ -185,6 +185,7 @@ for x in range(0, T):
 
 
 df = pd.DataFrame(emissions_data)
+df = df.assign(Unit="Metric Tons")
 # todo: update file name to be method file name
 df.to_csv(f"{emissionoutputpath}/{method_name}.csv", index=False)
 
