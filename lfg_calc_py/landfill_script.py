@@ -41,6 +41,14 @@ def load_default_decay_rates():
         decay_rates = pd.read_csv(file)
     return decay_rates
 
+def load_LFG_collection_efficiency():
+    path = datapath/'LFG_collection_scenarios.csv'
+    with open(path) as file:
+        lfg_collection_efficiencies = pd.read_csv(file)
+    return lfg_collection_efficiencies
+# todo: combine with material-specific collection efficiencies
+
+# Defining calc_year
 if "calc_year" in method_yaml:
     calc_year = method_yaml.get("calc_year")
 elif "landfill_close" in method_yaml:
