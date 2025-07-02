@@ -79,7 +79,7 @@ material_ratio_split = {}
 
 for key, value in waste_rate.items():
     # if data is provided as a range, split the range and add waste acceptance for each year to new dictionary
-    if "-" in key:
+    if "-" in str(key):
         y1, y2 = map(int, key.split("-"))
         for year in range(y1, y2 + 1):
             waste_rate_split[str(year)] = value
