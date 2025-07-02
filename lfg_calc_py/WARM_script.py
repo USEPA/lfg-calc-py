@@ -10,7 +10,7 @@ from lfg_calc_py.settings import methodpath, datapath, emissionoutputpath
 #         method_yaml = yaml.safe_load(file)
 #     return method_yaml
 
-method_name = 'Landfill_Example_Bulk_MSW'
+method_name = 'Landfill_Example_Material_Specific'
 
 with open(f"{methodpath}/{method_name}.yaml") as file:
     method_yaml = yaml.safe_load(file)
@@ -21,14 +21,15 @@ with open(f"{methodpath}/{method_name}.yaml") as file:
 # Defining variables from yaml
 
 waste_rate = method_yaml.get("waste_acceptance_rate")
-start_year = method_yaml.get("landfill_open")
+landfill_life = method_yaml.get("landfill_life")
 landfill_capacity = method_yaml.get("landfill_capacity")
 degradable_organic_carbon = method_yaml.get("degradable_organic_carbon")
 degradable_organic_carbon_fraction = method_yaml.get("degradable_organic_carbon_fraction")
 material_ratios = method_yaml.get("material_ratios")
-methane_generation_rates = method_yaml.get("methane_generation_rates")
+material_decay_rates = method_yaml.get("material_decay_rates")
 methane_correction_factor = method_yaml.get("methane_correction_factor")
 methane_content = method_yaml.get("methane_content")
+moisture_conditions = method_yaml.get("moisture_conditions")
 
 # todo: modify to account for "false"/no default data/all user input data
 def load_default_decay_rates():
@@ -44,9 +45,15 @@ def load_default_decay_rates():
 def load_LFG_collection_efficiency():
     path = datapath/'LFG_collection_scenarios.csv'
     with open(path) as file:
-        lfg_collection_efficiencies = pd.read_csv(file)
-    return lfg_collection_efficiencies
+        yearly_lfg_collection_efficiencies = pd.read_csv(file)
+    return yearly_lfg_collection_efficiencies
 # todo: combine with material-specific collection efficiencies
+
+def load_material_LFG_collection_efficiency():
+    path = datapath/'WARM_GasCollectionEfficiencies_v1.csv'
+    with open(path) as file:
+        material_lfg_collection_efficiencies = pd.read_csv(file)
+    return material_lfg_collection_efficiencies
 
 # Defining calc_year
 if "calc_year" in method_yaml:
@@ -54,9 +61,16 @@ if "calc_year" in method_yaml:
 elif "landfill_close" in method_yaml:
     calc_year = method_yaml.get("landfill_close")
 else:
-    print("ERROR: Define calc_year or landfill_close in method_yaml")
+    calc_year = 2024
+    #todo: automatically update to current date
 
-T = calc_year - start_year
+## Calling functions ##
+load_default_decay_rates()
+load_LFG_collection_efficiency()
+load_material_LFG_collection_efficiency()
+
+
+T = landfill_life
 x = symbols('x')
 
 # empty dictionary
@@ -88,8 +102,11 @@ for key, value in material_ratios.items():
 waste_rate_df = pd.DataFrame(waste_rate_split.items(), columns = ['Year', 'WasteAcceptanceRate'])
 material_ratio_df = pd.DataFrame(material_ratios.items(), columns = ['Waste Type', 'Waste Fraction'])
 #TODO: add third column to material ratio df for year?
-methane_generation_rates_df = pd.DataFrame(methane_generation_rates.items(),
-                                           columns = ['Waste Type', 'Methane Generation Rate'])
+material_decay_rates_df = pd.DataFrame(material_decay_rates.items(),
+                                       columns = ['Waste Type', 'Material Decay Rate'])
+material_lfg_collection_efficiencies_df = pd.DataFrame(material_lfg_collection_efficiencies.items(),
+                                        columns = ['Waste Type', 'LFG Collection Efficiency'])
+
 # set datatypes
 waste_rate_df['Year'] = waste_rate_df['Year'].astype(int)
 waste_rate_df['WasteAcceptanceRate'] = waste_rate_df['WasteAcceptanceRate'].astype(float)
@@ -125,13 +142,13 @@ def return_waste_acceptance(year):
     except IndexError:
         return 0
 
-def return_methane_generation_rates(material):
+def return_material_decay_rates(material):
     """
     Return the methane generation rate for a waste type
     :return:
     """
-    return float(methane_generation_rates_df.loc[
-            methane_generation_rates_df['Waste Type'] == material, 'Methane Generation Rate'].values[0])
+    return float(material_decay_rates_df.loc[
+                     material_decay_rates_df['Waste Type'] == material, 'Material Decay Rate'].values[0])
 
 def return_material_ratio(material):
     """
@@ -147,6 +164,7 @@ def return_gas_collection_efficiency(material):
     Return gas collection efficiency by material and year
     :return:
     """
+    return float()
     # load csv of material by year efficiencies
     # subset by material
     # return for year
@@ -169,19 +187,19 @@ methane_totals = {material: 0.0 for material in material_type_list}
 # Range upper limit in summation is 1 higher than IPCC equation
 # due to range function in Python
 for x in range(0, T):
-    row = {"Year": start_year + x}
+    row = {"Year": calc_year + x}
     for material in material_type_list: #TODO: make this iterate for each material type? Connect material ratio
         # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
         methane_annual = (
                 return_material_ratio(material)
-                * (return_waste_acceptance(start_year + x)
+                * (return_waste_acceptance(calc_year + x)
                    * methane_correction_factor
                    * degradable_organic_carbon
                    * degradable_organic_carbon_fraction
                    * methane_content
                    * 16/12
-                   * (exp(-return_methane_generation_rates(material)*(T-x-1))
-                      - exp(-return_methane_generation_rates(material)*(T-x)))
+                   * (exp(-return_material_decay_rates(material) * (T - x - 1))
+                      - exp(-return_material_decay_rates(material) * (T - x)))
                    )
         )
         methane_totals[material] += methane_annual  # cumulative total for material

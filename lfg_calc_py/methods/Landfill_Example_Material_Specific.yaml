@@ -2,39 +2,14 @@
 # for food and paper
 
 ## Landfill characteristics
-landfill_name: Kekaha Landfill
-GHGRP_ID: 1000216  # required if want to use landfill-specific characteristics
-# import_ghgrp_data: False  # True, False - option to import ghgrp data from stewi
-landfill_open: 1960
-landfill_close: 2027
-max_years: 80 # Maximum number of years for which the landfill may accept waste
-waste_acceptance_rate: {'1960 - 1992': 20665,
-                        '1993 - 1999': 60310,
-                        '2000': 69434,
-                        '2001': 69828,
-                        '2002': 70023,
-                        '2003': 76610,
-                        '2004': 80514,
-                        '2005': 79068,
-                        '2006': 83438,
-                        '2007': 81212,
-                        '2008': 74845,
-                        '2009': 65291,
-                        '2010': 66060,
-                        '2011': 63714,
-                        '2012': 66140,
-                        '2013': 67622,
-                        '2014': 72358,
-                        '2015': 73640,
-                        '2016': 77250,
-                        '2017': 77133,
-                        '2018': 84582,
-                        '2019': 82222,
-                        '2020': 79426,
-                        '2021': 80260,
-                        '2022': 79675,
-                        '2023': 80247}
-landfill_capacity: 3200000 # Landfill maximum waste design capacity, Mg
+state: Wyoming # state for electric grid; all states + national average
+moisture_conditions: moderate # dry, moderate, wet, bioreactor, national average
+source_recycling_mix: current mix # current mix, 100% virgin
+anaerobic_digestion: none # wet, dry, none
+digestion_process: none # cured, not cured, none
+waste_acceptance_rate: { 1
+                        }
+# include waste types, option to recycle, landfill, combust, compost, anaerobically digest
 
 ## Model Parameters
 # use_default_model_parameters: False  # True, False
@@ -45,7 +20,13 @@ degradable_organic_carbon_fraction: 0.5 # fraction of the degradable organic car
 methane_content: 0.50 # Fraction by volume of methane in the landfill gas
 methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic decomposition in the
 # year of deposition
+landfill_life: 100
+
 calc_year: 2024
+
+## Transportation ##
+transportation_distances: default # default, provide information
+# transportation information for: landfill, combustion, recycling, composting, anaerobic digestion
 
 # Fraction of annual waste by material
 material_ratios:
