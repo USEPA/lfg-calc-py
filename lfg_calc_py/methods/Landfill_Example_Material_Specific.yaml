@@ -3,7 +3,7 @@
 
 ## Landfill characteristics
 state: Wyoming # state for electric grid; all states + national average
-moisture_conditions: moderate # dry, moderate, wet, bioreactor, national average
+moisture_conditions: Moderate # dry, moderate, wet, bioreactor, national average
 source_recycling_mix: current mix # current mix, 100% virgin
 anaerobic_digestion: none # wet, dry, none
 digestion_process: none # cured, not cured, none
@@ -48,5 +48,5 @@ material_decay_rates:
   paper: 0.07
 
 ## Landfill Gas Recovery Options
-LFG_recovery: False  # False, national_average, recover_energy, flare
-LFG_collection_efficiency: False  # False, national_average, typical, worst_case, aggressive, california
+LFG_recovery: Recover energy  # False, national_average, recover_energy, flare
+LFG_collection_efficiency: Typical  # False, national_average, typical, worst_case, aggressive, california
