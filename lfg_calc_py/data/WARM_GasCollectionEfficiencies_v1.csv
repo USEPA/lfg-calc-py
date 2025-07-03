@@ -1,0 +1,217 @@
+Material,Proxy,Scenario,Dry,Moderate,Wet,Bioreactor,National Average
+Aluminum Cans,Aluminum Cans,Typical operation,--,--,--,--,--
+Steel Cans,Steel Cans,Typical operation,--,--,--,--,--
+Copper Wire,Copper Wire,Typical operation,--,--,--,--,--
+Glass,Glass,Typical operation,--,--,--,--,--
+HDPE,HDPE,Typical operation,--,--,--,--,--
+LDPE,LDPE,Typical operation,--,--,--,--,--
+PET,PET,Typical operation,--,--,--,--,--
+Corrugated Containers,Corrugated Containers,Typical operation,0.579344513,0.528776689,0.544234784,0.552981201,0.56183942
+Magazines/Third-class Mail,Magazines/Third-class Mail,Typical operation,0.614763452,0.55331527,0.520814699,0.447867307,0.536548818
+Newspaper,Newspaper,Typical operation,0.594804952,0.549295001,0.587083356,0.573691798,0.592546872
+Office Paper,Office Paper,Typical operation,0.622217707,0.586307583,0.578339098,0.57299025,0.586233088
+Phonebooks,Phonebooks,Typical operation,0.620352477,0.578429754,0.587083356,0.573691798,0.592546872
+Textbooks,Office Paper,Typical operation,0.622217707,0.586307583,0.578339098,0.57299025,0.586233088
+Dimensional Lumber,Dimensional Lumber,Typical operation,0.624580576,0.595811234,0.567225463,0.502492159,0.576788783
+Medium-density Fiberboard,Medium-density Fiberboard,Typical operation,0.618652438,0.587126,0.586568947,0.531378179,0.592351434
+Food Waste,Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Food Waste (meat only),Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Food Waste (non-meat),Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Beef,Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Poultry,Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Grains,Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Bread,Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Fruits and Vegetables,Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Dairy Products,Food Waste,Typical operation,0.560307187,0.505684236,0.498047402,0.424028493,0.515785697
+Yard Trimmings,Yard Trimmings,Typical operation,0.426695407,0.373755515,0.443030521,0.394412615,0.465255829
+Grass,Grass,Typical operation,0.610833728,0.53474424,0.391902328,0.32794479,0.413868375
+Leaves,Leaves,Typical operation,0.485114171,0.425533582,0.473332822,0.399533704,0.492697342
+Branches,Branches,Typical operation,--,--,0.514984608,0.522227177,0.540589222
+Mixed Paper (general),Mixed Paper (general),Typical operation,0.594463172,0.547170349,0.559465697,0.553544443,0.572064694
+Mixed Paper (primarily residential),Mixed Paper (primarily residential),Typical operation,0.592444555,0.544004084,0.556522551,0.550034516,0.569788187
+Mixed Paper (primarily from offices),Mixed Paper (primarily from offices),Typical operation,0.611633837,0.563781163,0.557761393,0.527092863,0.568452962
+Mixed Metals,Mixed Metals,Typical operation,--,--,--,--,--
+Mixed Plastics,Mixed Plastics,Typical operation,--,--,--,--,--
+Mixed Recyclables,Mixed Recyclables,Typical operation,0.51546174,0.473411404,0.48116539,0.475697016,0.494001646
+Mixed Organics,Mixed Organics,Typical operation,0.497996898,0.444158848,0.4723901,0.410217032,0.492220928
+Mixed MSW,Mixed MSW,Typical operation,0.622217707,0.586307583,0.595350153,0.568842248,0.5986787
+Carpet,Carpet,Typical operation,--,--,--,--,--
+Personal Computers,Personal Computers,Typical operation,--,--,--,--,--
+Clay Bricks,Clay Bricks,Typical operation,--,--,--,--,--
+Concrete,Concrete,Typical operation,--,--,--,--,--
+Fly Ash,Fly Ash,Typical operation,--,--,--,--,--
+Tires,Tires,Typical operation,--,--,--,--,--
+Asphalt Concrete,Asphalt Concrete,Typical operation,--,--,--,--,--
+Asphalt Shingles,Asphalt Shingles,Typical operation,--,--,--,--,--
+Drywall,Drywall,Typical operation,--,--,--,--,--
+Fiberglass Insulation,Fiberglass Insulation,Typical operation,--,--,--,--,--
+Vinyl Flooring,Vinyl Flooring,Typical operation,--,--,--,--,--
+Wood Flooring,Wood Flooring,Typical operation,--,--,--,--,--
+Aluminum Ingot,Aluminum Ingot,Typical operation,--,--,--,--,--
+PLA,PLA,Typical operation,--,--,--,--,--
+LLDPE,LLDPE,Typical operation,--,--,--,--,--
+PP,PP,Typical operation,--,--,--,--,--
+PS,PS,Typical operation,--,--,--,--,--
+PVC,PVC,Typical operation,--,--,--,--,--
+Aluminum Cans,Aluminum Cans,Worst-case,--,--,--,--,--
+Steel Cans,Steel Cans,Worst-case,--,--,--,--,--
+Copper Wire,Copper Wire,Worst-case,--,--,--,--,--
+Glass,Glass,Worst-case,--,--,--,--,--
+HDPE,HDPE,Worst-case,--,--,--,--,--
+LDPE,LDPE,Worst-case,--,--,--,--,--
+PET,PET,Worst-case,--,--,--,--,--
+Corrugated Containers,Corrugated Containers,Worst-case,0.525607027,0.43096742,0.527909606,0.504831651,0.542954031
+Magazines/Third-class Mail,Magazines/Third-class Mail,Worst-case,0.602152369,0.536572819,0.400610004,0.258161877,0.433873271
+Newspaper,Newspaper,Worst-case,0.548204998,0.46285596,0.553272857,0.494364947,0.55989364
+Office Paper,Office Paper,Worst-case,0.60597971,0.560090169,0.549912968,0.50266632,0.557796408
+Phonebooks,Phonebooks,Worst-case,0.605283907,0.555220639,0.553272857,0.494364947,0.55989364
+Textbooks,Office Paper,Worst-case,0.60597971,0.560090169,0.549912968,0.50266632,0.557796408
+Dimensional Lumber,Dimensional Lumber,Worst-case,0.606197493,0.564237825,0.478261129,0.346515193,0.50007669
+Medium-density Fiberboard,Medium-density Fiberboard,Worst-case,0.585879614,0.524857866,0.514921811,0.397064725,0.529716483
+Food Waste,Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Food Waste (meat only),Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Food Waste (non-meat),Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Beef,Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Poultry,Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Grains,Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Bread,Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Fruits and Vegetables,Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Dairy Products,Food Waste,Worst-case,0.498376535,0.395507085,0.364249564,0.221966939,0.401574254
+Yard Trimmings,Yard Trimmings,Worst-case,0.397742755,0.329225185,0.309341852,0.214527461,0.348560372
+Grass,Grass,Worst-case,0.599472439,0.521312489,0.203400089,0.092246367,0.250492997
+Leaves,Leaves,Worst-case,0.39202614,0.274275763,0.325504006,0.186307342,0.366389736
+Branches,Branches,Worst-case,--,--,0.505063226,0.487309769,0.52686576
+Mixed Paper (general),Mixed Paper (general),Worst-case,0.553228704,0.472893651,0.52821349,0.482152994,0.541261552
+Mixed Paper (primarily residential),Mixed Paper (primarily residential),Worst-case,0.54971127,0.466939509,0.524093664,0.477454185,0.538019998
+Mixed Paper (primarily from offices),Mixed Paper (primarily from offices),Worst-case,0.588450544,0.524748601,0.495769309,0.413009699,0.512882379
+Mixed Metals,Mixed Metals,Worst-case,--,--,--,--,--
+Mixed Plastics,Mixed Plastics,Worst-case,--,--,--,--,--
+Mixed Recyclables,Mixed Recyclables,Worst-case,0.4773264,0.404690607,0.452851074,0.412882047,0.466264817
+Mixed Organics,Mixed Organics,Worst-case,0.451445644,0.364596305,0.338643174,0.218497514,0.376851058
+Mixed MSW,Mixed MSW,Worst-case,0.60597971,0.560090169,0.552339262,0.474988986,0.558814565
+Carpet,Carpet,Worst-case,--,--,--,--,--
+Personal Computers,Personal Computers,Worst-case,--,--,--,--,--
+Clay Bricks,Clay Bricks,Worst-case,--,--,--,--,--
+Concrete,Concrete,Worst-case,--,--,--,--,--
+Fly Ash,Fly Ash,Worst-case,--,--,--,--,--
+Tires,Tires,Worst-case,--,--,--,--,--
+Asphalt Concrete,Asphalt Concrete,Worst-case,--,--,--,--,--
+Asphalt Shingles,Asphalt Shingles,Worst-case,--,--,--,--,--
+Drywall,Drywall,Worst-case,--,--,--,--,--
+Fiberglass Insulation,Fiberglass Insulation,Worst-case,--,--,--,--,--
+Vinyl Flooring,Vinyl Flooring,Worst-case,--,--,--,--,--
+Wood Flooring,Wood Flooring,Worst-case,--,--,--,--,--
+Aluminum Ingot,Aluminum Ingot,Worst-case,--,--,--,--,--
+PLA,PLA,Worst-case,--,--,--,--,--
+LLDPE,LLDPE,Worst-case,--,--,--,--,--
+PP,PP,Worst-case,--,--,--,--,--
+PS,PS,Worst-case,--,--,--,--,--
+PVC,PVC,Worst-case,--,--,--,--,--
+Aluminum Cans,Aluminum Cans,Aggressive,--,--,--,--,--
+Steel Cans,Steel Cans,Aggressive,--,--,--,--,--
+Copper Wire,Copper Wire,Aggressive,--,--,--,--,--
+Glass,Glass,Aggressive,--,--,--,--,--
+HDPE,HDPE,Aggressive,--,--,--,--,--
+LDPE,LDPE,Aggressive,--,--,--,--,--
+PET,PET,Aggressive,--,--,--,--,--
+Corrugated Containers,Corrugated Containers,Aggressive,0.594647608,0.562121732,0.560630249,0.575979278,0.571881718
+Magazines/Third-class Mail,Magazines/Third-class Mail,Aggressive,0.613406654,0.557728122,0.565392562,0.507221461,0.572059163
+Newspaper,Newspaper,Aggressive,0.607791674,0.57924685,0.608361306,0.60473894,0.606920883
+Office Paper,Office Paper,Aggressive,0.622897718,0.594570755,0.598139189,0.601651298,0.599280756
+Phonebooks,Phonebooks,Aggressive,0.620400877,0.585467973,0.608361306,0.60473894,0.606920883
+Textbooks,Office Paper,Aggressive,0.622897718,0.594570755,0.598139189,0.601651298,0.599280756
+Dimensional Lumber,Dimensional Lumber,Aggressive,0.626367753,0.60624294,0.603390512,0.554311475,0.604814489
+Medium-density Fiberboard,Medium-density Fiberboard,Aggressive,0.626712226,0.60916054,0.61805052,0.577515963,0.616098635
+Food Waste,Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Food Waste (meat only),Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Food Waste (non-meat),Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Beef,Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Poultry,Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Grains,Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Bread,Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Fruits and Vegetables,Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Dairy Products,Food Waste,Aggressive,0.578159152,0.54250823,0.546170163,0.485383914,0.55439703
+Yard Trimmings,Yard Trimmings,Aggressive,0.432402858,0.386979455,0.489273776,0.444634388,0.502411732
+Grass,Grass,Aggressive,0.608713369,0.537834686,0.451325934,0.387284114,0.46314011
+Leaves,Leaves,Aggressive,0.512184691,0.472248448,0.524941736,0.462034355,0.534371198
+Branches,Branches,Aggressive,--,--,0.529501497,0.541934966,0.54899551
+Mixed Paper (general),Mixed Paper (general),Aggressive,0.604952929,0.572370076,0.579968476,0.582515376,0.585785121
+Mixed Paper (primarily residential),Mixed Paper (primarily residential),Aggressive,0.603501663,0.570164011,0.577335875,0.579312302,0.583794336
+Mixed Paper (primarily from offices),Mixed Paper (primarily from offices),Aggressive,0.61489616,0.576466936,0.586621601,0.567021361,0.589715457
+Mixed Metals,Mixed Metals,Aggressive,--,--,--,--,--
+Mixed Plastics,Mixed Plastics,Aggressive,--,--,--,--,--
+Mixed Recyclables,Mixed Recyclables,Aggressive,0.525413907,0.496714128,0.499312582,0.501164605,0.506228916
+Mixed Organics,Mixed Organics,Aggressive,0.510185229,0.46997688,0.519636347,0.466380239,0.530153517
+Mixed MSW,Mixed MSW,Aggressive,0.622897718,0.594570755,0.619124503,0.6038313,0.615321061
+Carpet,Carpet,Aggressive,--,--,--,--,--
+Personal Computers,Personal Computers,Aggressive,--,--,--,--,--
+Clay Bricks,Clay Bricks,Aggressive,--,--,--,--,--
+Concrete,Concrete,Aggressive,--,--,--,--,--
+Fly Ash,Fly Ash,Aggressive,--,--,--,--,--
+Tires,Tires,Aggressive,--,--,--,--,--
+Asphalt Concrete,Asphalt Concrete,Aggressive,--,--,--,--,--
+Asphalt Shingles,Asphalt Shingles,Aggressive,--,--,--,--,--
+Drywall,Drywall,Aggressive,--,--,--,--,--
+Fiberglass Insulation,Fiberglass Insulation,Aggressive,--,--,--,--,--
+Vinyl Flooring,Vinyl Flooring,Aggressive,--,--,--,--,--
+Wood Flooring,Wood Flooring,Aggressive,--,--,--,--,--
+Aluminum Ingot,Aluminum Ingot,Aggressive,--,--,--,--,--
+PLA,PLA,Aggressive,--,--,--,--,--
+LLDPE,LLDPE,Aggressive,--,--,--,--,--
+PP,PP,Aggressive,--,--,--,--,--
+PS,PS,Aggressive,--,--,--,--,--
+PVC,PVC,Aggressive,--,--,--,--,--
+Aluminum Cans,Aluminum Cans,California,--,--,--,--,--
+Steel Cans,Steel Cans,California,--,--,--,--,--
+Copper Wire,Copper Wire,California,--,--,--,--,--
+Glass,Glass,California,--,--,--,--,--
+HDPE,HDPE,California,--,--,--,--,--
+LDPE,LDPE,California,--,--,--,--,--
+PET,PET,California,--,--,--,--,--
+Corrugated Containers,Corrugated Containers,California,0.654052485,0.610432203,0.60088643,0.621051342,0.612072277
+Magazines/Third-class Mail,Magazines/Third-class Mail,California,0.6563516,0.594230105,0.613810185,0.537385059,0.620744358
+Newspaper,Newspaper,California,0.665961486,0.628157678,0.654068348,0.654922678,0.651677149
+Office Paper,Office Paper,California,0.668733838,0.635349558,0.64243123,0.651035891,0.642857361
+Phonebooks,Phonebooks,California,0.665368115,0.625055064,0.654068348,0.654922678,0.651677149
+Textbooks,Office Paper,California,0.668733838,0.635349558,0.64243123,0.651035891,0.642857361
+Dimensional Lumber,Dimensional Lumber,California,0.673670238,0.648845268,0.654659631,0.595929035,0.654851549
+Medium-density Fiberboard,Medium-density Fiberboard,California,0.68102325,0.657400993,0.669097937,0.623953055,0.665591032
+Food Waste,Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Food Waste (meat only),Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Food Waste (non-meat),Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Beef,Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Poultry,Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Grains,Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Bread,Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Fruits and Vegetables,Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Dairy Products,Food Waste,California,0.638451967,0.589524145,0.592039329,0.509601365,0.601513704
+Yard Trimmings,Yard Trimmings,California,0.468100474,0.413678808,0.52206551,0.454582216,0.539246666
+Grass,Grass,California,0.650504177,0.572397286,0.476982516,0.378248853,0.495510478
+Leaves,Leaves,California,0.571393541,0.50992066,0.56731146,0.479412467,0.579169128
+Branches,Branches,California,--,--,0.566985547,0.582418693,0.58679658
+Mixed Paper (general),Mixed Paper (general),California,0.660030845,0.61837362,0.622992951,0.62848407,0.628428229
+Mixed Paper (primarily residential),Mixed Paper (primarily residential),California,0.659076856,0.616377282,0.620226918,0.624672958,0.626358517
+Mixed Paper (primarily from offices),Mixed Paper (primarily from offices),California,0.662959971,0.617790392,0.632494208,0.609438589,0.635209581
+Mixed Metals,Mixed Metals,California,--,--,--,--,--
+Mixed Plastics,Mixed Plastics,California,--,--,--,--,--
+Mixed Recyclables,Mixed Recyclables,California,0.574117342,0.537102397,0.536457522,0.540056503,0.543141817
+Mixed Organics,Mixed Organics,California,0.559007993,0.507518099,0.55940681,0.483943006,0.572475268
+Mixed MSW,Mixed MSW,California,0.668733838,0.635349558,0.666817436,0.654357292,0.661748026
+Carpet,Carpet,California,--,--,--,--,--
+Personal Computers,Personal Computers,California,--,--,--,--,--
+Clay Bricks,Clay Bricks,California,--,--,--,--,--
+Concrete,Concrete,California,--,--,--,--,--
+Fly Ash,Fly Ash,California,--,--,--,--,--
+Tires,Tires,California,--,--,--,--,--
+Asphalt Concrete,Asphalt Concrete,California,--,--,--,--,--
+Asphalt Shingles,Asphalt Shingles,California,--,--,--,--,--
+Drywall,Drywall,California,--,--,--,--,--
+Fiberglass Insulation,Fiberglass Insulation,California,--,--,--,--,--
+Vinyl Flooring,Vinyl Flooring,California,--,--,--,--,--
+Wood Flooring,Wood Flooring,California,--,--,--,--,--
+Aluminum Ingot,Aluminum Ingot,California,--,--,--,--,--
+PLA,PLA,California,--,--,--,--,--
+LLDPE,LLDPE,California,--,--,--,--,--
+PP,PP,California,--,--,--,--,--
+PS,PS,California,--,--,--,--,--
+PVC,PVC,California,--,--,--,--,--
