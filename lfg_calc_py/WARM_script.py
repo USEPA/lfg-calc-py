@@ -31,7 +31,7 @@ methane_correction_factor = method_yaml.get("methane_correction_factor")
 methane_content = method_yaml.get("methane_content")
 moisture_conditions = method_yaml.get("moisture_conditions")
 LFG_recovery = method_yaml.get("LFG_recovery")
-LFG_collection_efficiency = method_yaml.get("LFG_collection_efficiency")
+LFG_collection_scenario = method_yaml.get("LFG_collection_scenario")
 
 # todo: modify to account for "false"/no default data/all user input data
 def load_default_decay_rates():
@@ -115,14 +115,16 @@ material_type_list = list(material_ratios.keys())
 #
 material_decay_rates_df = pd.DataFrame(material_decay_rates.items(),
                                        columns = ['Waste Type', 'Material Decay Rate'])
-columns_list = list(material_lfg_collection_efficiencies.columns.values)
-if moisture_conditions in columns_list:
-    columns_list.remove(moisture_conditions)
+# Remove excess moisture scenarios
+conditions_list = ['Dry','Moderate','Wet','Bioreactor','National Average']
+mc_list = [moisture_conditions]
+if moisture_conditions in conditions_list:
+    conditions_list = [x for x in conditions_list if x not in mc_list]
     material_lfg_collection_efficiencies = material_lfg_collection_efficiencies.drop(
-        columns=x in columns_list)
+        columns = conditions_list)
 else:
     raise ValueError("The moisture conditions are outside the specified range")
-# todo: drop remaining columns for other moisture conditions
+
 
 
 # Parameters and checks
