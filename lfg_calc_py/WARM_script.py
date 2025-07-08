@@ -125,7 +125,14 @@ if moisture_conditions in conditions_list:
 else:
     raise ValueError("The moisture conditions are outside the specified range")
 
-
+scenario_list = ['Typical operation', 'Worst-case', 'Aggressive', 'California']
+sc_list = [LFG_collection_scenario]
+if LFG_collection_scenario in scenario_list:
+    scenario_list = [x for x in scenario_list if x not in sc_list]
+    material_lfg_collection_efficiencies = material_lfg_collection_efficiencies[~material_lfg_collection_efficiencies
+    ['Scenario'].isin(scenario_list)]
+else:
+    material_lfg_collection_efficiencies = material_lfg_collection_efficiencies.drop(columns = 'Scenario')
 
 # Parameters and checks
 
