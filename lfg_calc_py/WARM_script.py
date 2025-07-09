@@ -48,7 +48,6 @@ def load_default_decay_rates():
 path = datapath/'LFG_collection_scenarios.csv'
 with open(path) as file:
     yearly_lfg_collection_efficiencies = pd.read_csv(file)
-# todo: combine with material-specific collection efficiencies
 
 # WARM material-specific LFG collection efficiencies
 path = datapath/'WARM_GasCollectionEfficiencies_v1.csv'
@@ -94,12 +93,10 @@ for key, value in material_ratios.items():
     # else if entry is a single value, append to new dictionary as-is
     else:
         material_ratio_split[str(key)] = value
-#TODO: ensure the key corresponds to year, not waste type
 
 # convert expanded dictionary into df
 waste_rate_df = pd.DataFrame(waste_rate_split.items(), columns = ['Year', 'WasteAcceptanceRate'])
 material_ratio_df = pd.DataFrame(material_ratios.items(), columns = ['Waste Type', 'Waste Fraction'])
-#TODO: add third column to material ratio df for year?
 
 
 # set datatypes
@@ -131,8 +128,11 @@ if LFG_collection_scenario in scenario_list:
     scenario_list = [x for x in scenario_list if x not in sc_list]
     material_lfg_collection_efficiencies = material_lfg_collection_efficiencies[~material_lfg_collection_efficiencies
     ['Scenario'].isin(scenario_list)]
+    yearly_lfg_collection_efficiencies = yearly_lfg_collection_efficiencies[~yearly_lfg_collection_efficiencies
+    ['Scenario'].isin(scenario_list)]
 else:
     material_lfg_collection_efficiencies = material_lfg_collection_efficiencies.drop(columns = 'Scenario')
+    yearly_lfg_collection_efficiencies = yearly_lfg_collection_efficiencies.drop(columns = 'Scenario')
 
 # Parameters and checks
 
@@ -175,15 +175,27 @@ def return_material_ratio(material):
 
 def return_gas_collection_efficiency(material):
     """
-    Return gas collection efficiency by material and year
+    Return gas collection efficiency by material; return 0 value if LFG is not captured
     :return:
     """
-    return float()
-    # load csv of material by year efficiencies
-    # subset by material
-    # return for year
+    try:
+        return float(material_lfg_collection_efficiencies.loc[
+            material_lfg_collection_efficiencies['Material'] == material, 3].values[0])
+    except IndexError:
+        return 0
 
-    return df
+
+def return_annual_lfg_collection_efficiency(x):
+    """
+    Return gas collection efficiency by year; return 0 value if LFG is not captured
+    :param year:
+    :return:
+    """
+    try:
+        return float(yearly_lfg_collection_efficiencies.loc[
+                     yearly_lfg_collection_efficiencies['Year'] == x, 'Efficiency'].values[0])
+    except IndexError:
+        return 0
 
 # todo: first year emissions out of landfill should be 0
 
@@ -202,7 +214,7 @@ methane_totals = {material: 0.0 for material in material_type_list}
 # due to range function in Python
 for x in range(0, T):
     row = {"Year": calc_year + x}
-    for material in material_type_list: #TODO: make this iterate for each material type? Connect material ratio
+    for material in material_type_list:
         # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
         methane_annual = (
                 return_material_ratio(material)
@@ -216,11 +228,16 @@ for x in range(0, T):
                       - exp(-return_material_decay_rates(material) * (T - x)))
                    )
         )
+        methane_annual_captured = (
+            methane_annual * return_gas_collection_efficiency(material)
+            * return_annual_lfg_collection_efficiency(x)
+        )
         methane_totals[material] += methane_annual  # cumulative total for material
         row[f"{material} Methane Annual"] = methane_annual  # annual value
         row[f"{material} Methane Total"] = methane_totals[material]  # cumulative
         # todo: add new row item for unit
         # todo: new columns for summed materials
+        # todo: add column for captured LFG
 
     emissions_data.append(row)  # Append row data to list
 
