@@ -1,7 +1,7 @@
 import pandas as pd
 import yaml
 from sympy import exp, symbols
-from lfg_calc_py.settings import methodpath, datapath, emissionoutputpath
+from lfg_calc_py.settings import methodpath, datapath, lfgoutputpath
 # from lfg_calc_py.validation import check_if_landfill_is_full
 
 
@@ -196,7 +196,7 @@ for x in range(0, T):
 df = pd.DataFrame(emissions_data)
 df = df.assign(Unit="Metric Tons")
 # todo: update file name to be method file name
-df.to_csv(f"{emissionoutputpath}/{method_name}.csv", index=False)
+df.to_csv(f"{lfgoutputpath}/{method_name}.csv", index=False)
 
     # return df
 
