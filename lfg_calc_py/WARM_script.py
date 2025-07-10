@@ -1,14 +1,182 @@
+"""
+FlowBySector (FBS) data are attributed to a class, allowing the configuration
+file and other attributes to be attached to the FBS object. The functions
+defined in this file are specific to FBS data.
+"""
+# necessary so 'FlowBySector'/'FlowByActivity' can be used in fxn
+# annotations without importing the class to the py script which would lead
+# to circular reasoning
+from __future__ import annotations
+
+import esupy.processed_data_mgmt
 import pandas as pd
+from pandas import ExcelWriter
+from copy import deepcopy
+from functools import partial
+from lfg_calc_py import settings, common
+from lfg_calc_py.settings import DEFAULT_DOWNLOAD_IF_MISSING
+from lfg_calc_py.lfg_log import reset_log_file, log
+
 import yaml
 from sympy import exp, symbols
-from lfg_calc_py.settings import methodpath, datapath, emissionoutputpath
+from lfg_calc_py.settings import methodpath, datapath, lfgoutputpath
+
 # from lfg_calc_py.validation import check_if_landfill_is_full
 
 
-# def return_method_yaml(method_name):
-#     with open(f"{methodpath}/{method_name}.yaml") as file:
-#         method_yaml = yaml.safe_load(file)
-#     return method_yaml
+class LFG:
+    _metadata = ['full_name', 'config']
+
+    full_name: str
+    config: dict
+
+    def __init__(
+        self,
+        data: pd.DataFrame = None,
+        *args,
+        **kwargs
+    ) -> None:
+
+        fields = flowby_config['lfg_fields']
+        column_order = flowby_config['lfg_column_order']
+
+        super().__init__(data,
+                         fields=fields,
+                         column_order=column_order,
+                         *args, **kwargs)
+
+    # @property
+    # def _constructor(self) -> 'LFG':
+    #     return LFG
+
+    @classmethod
+    def get_lfg_df(
+        cls,
+        file_metadata: esupy.processed_data_mgmt.FileMeta,
+        download_ok: bool,
+        lfg_generator: partial,
+        output_path: str,
+        *,
+        full_name: str = None,
+        config: dict = None,
+        external_data_path: str = None
+    ) -> 'LFG':
+        paths = deepcopy(settings.paths)
+        paths.local_path = external_data_path or paths.local_path
+
+        attempt_list = (['import local', 'download', 'generate']
+                        if download_ok else ['import local', 'generate'])
+
+        for attempt in attempt_list:
+            log.info(f'Attempting to {attempt} {file_metadata.name_data} '
+                     f'{file_metadata.category}')
+            if attempt == 'download':
+                esupy.processed_data_mgmt.download_from_remote(
+                    file_metadata,
+                    paths
+                )
+            if attempt == 'generate':
+                lfg_generator()
+            df = esupy.processed_data_mgmt.load_preprocessed_output(
+                file_metadata,
+                paths
+            )
+            if df is None:
+                log.info(f'{file_metadata.name_data} {file_metadata.category} '
+                         f'not found in {paths.local_path}')
+            else:
+                log.info(f'Successfully loaded {file_metadata.name_data} '
+                         f'{file_metadata.category} from {output_path}')
+                break
+        else:
+            log.error(f'{file_metadata.name_data} {file_metadata.category} '
+                      f'could not be found locally, downloaded, or generated')
+        lfg = cls(df, full_name=full_name or '', config=config or {})
+        return lfg
+
+    @classmethod
+    def return_LFG(
+        cls,
+        method: str,
+        config: dict = None,
+        external_config_path: str = None,
+        download_df_ok: bool = DEFAULT_DOWNLOAD_IF_MISSING,
+        **kwargs
+    ) -> 'LFG':
+        """
+        Loads stored LFG output. If it is not
+        available, tries to download it from EPA's remote server (if
+        download_ok is True), or generate it.
+        :param method: string, name of the FBS attribution method file to use
+        :param external_config_path: str, path to the FBS method file if
+            loading a file from outside the flowsa repository
+        :param config: dict, method dictionary loaded from method yaml
+        # :param download_df_ok: bool, if True will attempt to load df
+        #     from EPA's remote server rather than generating (if not found locally)
+        :kwargs: keyword arguments - possible kwargs include full_name and config.
+        :return: LFG dataframe
+        """
+        file_metadata = metadata.set_meta(method)
+
+        lfg_generator = (
+            lambda x=method, y=external_config_path, z=download_df_ok:
+                cls.generateFlowBySector(x, y, z, config=config)
+            )
+
+        lfg = lfg_generator.get_lfg_df(
+            file_metadata=file_metadata,
+            download_ok=download_df_ok,
+            lfg_generator=lfg_generator,
+            output_path=settings.lfgoutputpath,
+            full_name=method,
+            config=config,
+            **kwargs
+        )
+
+        return lfg
+
+    @classmethod
+    def generateLFG(
+            cls,
+            method: str,
+            external_config_path: str = None,
+            **kwargs
+    ) -> 'LFG':
+        '''
+        Generates a FlowBySector dataset.
+        :param method: str, name of FlowBySector method .yaml file to use.
+        :param external_config_path: str, optional. If given, tells flowsa
+            where to look for the method yaml specified above.
+        :param download_fba_ok: bool, optional. Whether to attempt to download
+            source data FlowByActivity files from EPA server rather than
+            generating them.
+        :kwargs: keyword arguments to pass to load_yaml_dict(). Possible kwargs
+            include config.
+        '''
+        log.info('Beginning generation for %s', method)
+        method_config = common.load_yaml_dict(method,
+                                              filepath=external_config_path,
+                                              **kwargs)
+        # generate lfg df
+        # df =
+
+        df.full_name = method
+        df.config = method_config
+
+        # Save df and metadata
+        log.info(f'LFG generation complete, saving {method} to file')
+        meta = metadata.set_fb_meta(method)
+        esupy.processed_data_mgmt.write_df_to_file(df, settings.paths, meta)
+        reset_log_file(method, meta)
+        metadata.write_metadata(source_name=method,
+                                config=common.load_yaml_dict(
+                                    method, filepath=external_config_path, **kwargs),
+                                fb_meta=meta
+                                )
+
+        return df
+
+
 
 method_name = 'Landfill_Example_Material_Specific'
 
@@ -245,7 +413,7 @@ for x in range(0, T):
 df = pd.DataFrame(emissions_data)
 df = df.assign(Unit="Metric Tons")
 # todo: update file name to be method file name
-df.to_csv(f"{emissionoutputpath}/{method_name}.csv", index=False)
+df.to_csv(f"{lfgoutputpath}/{method_name}.csv", index=False)
 
     # return df
 
