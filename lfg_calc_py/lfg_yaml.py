@@ -14,7 +14,7 @@ class lfgLoader(yaml.SafeLoader):
     def __init__(self, stream: IO) -> None:
         super().__init__(stream)
         self.add_multi_constructor('!include:', self.include)
-        self.add_constructor('!external_config', self.external_config)
+        # self.add_constructor('!external_config', self.external_config)
         self.external_paths_to_search = []
         self.external_path_to_pass = None
 
