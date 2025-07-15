@@ -45,14 +45,14 @@ def load_default_decay_rates():
     return decay_rates
 
 # WARM LFG collection efficiencies by year
-path = datapath/'LFG_collection_scenarios.csv'
+path = datapath/'LFG_collection_scenario_values_v2.csv'
 with open(path) as file:
     yearly_lfg_collection_efficiencies = pd.read_csv(file)
 
 # WARM material-specific LFG collection efficiencies
 path = datapath/'WARM_GasCollectionEfficiencies_v1.csv'
 with open(path) as file:
-    material_lfg_collection_efficiencies = pd.read_csv(file)
+    material_lfg_collection_efficiencies = pd.read_csv(file, encoding='latin1')
 
 # Defining calc_year
 if "calc_year" in method_yaml:
@@ -112,27 +112,10 @@ material_type_list = list(material_ratios.keys())
 #
 material_decay_rates_df = pd.DataFrame(material_decay_rates.items(),
                                        columns = ['Waste Type', 'Material Decay Rate'])
-# Remove excess moisture scenarios
-conditions_list = ['Dry','Moderate','Wet','Bioreactor','National Average']
-mc_list = [moisture_conditions]
-if moisture_conditions in conditions_list:
-    conditions_list = [x for x in conditions_list if x not in mc_list]
-    material_lfg_collection_efficiencies = material_lfg_collection_efficiencies.drop(
-        columns = conditions_list)
-else:
-    raise ValueError("The moisture conditions are outside the specified range")
 
-scenario_list = ['Typical operation', 'Worst-case', 'Aggressive', 'California']
-sc_list = [LFG_collection_scenario]
-if LFG_collection_scenario in scenario_list:
-    scenario_list = [x for x in scenario_list if x not in sc_list]
-    material_lfg_collection_efficiencies = material_lfg_collection_efficiencies[~material_lfg_collection_efficiencies
-    ['Scenario'].isin(scenario_list)]
-    yearly_lfg_collection_efficiencies = yearly_lfg_collection_efficiencies[~yearly_lfg_collection_efficiencies
-    ['Scenario'].isin(scenario_list)]
-else:
-    material_lfg_collection_efficiencies = material_lfg_collection_efficiencies.drop(columns = 'Scenario')
-    yearly_lfg_collection_efficiencies = yearly_lfg_collection_efficiencies.drop(columns = 'Scenario')
+material_lfg_sub = material_lfg_collection_efficiencies[["Material", "Proxy", "Scenario", moisture_conditions]]
+# todo: fix next line
+material_lfg_sub_v2 = material_lfg_sub.query(f"Scenario=='{LFG_collection_scenario}'",inplace=True)
 
 # Parameters and checks
 
