@@ -1,8 +1,9 @@
 import logging as log
 from os import path
 import re
+import pandas as pd
 
-from lfg_calc_py.settings import methodpath
+from lfg_calc_py.settings import methodpath, datapath
 import lfg_calc_py.lfg_yaml as lfg_calc_py_yaml
 
 
@@ -46,3 +47,16 @@ def load_yaml_dict(filename, filepath=None, **kwargs):
         raise KeyError(f"{filename} not found in {folder}")
 
     return config
+
+
+def load_data_csv(filename):
+    """
+    Loads csv data from lfg_calc_py/data
+    :param filename:
+    :return:
+    """
+    path = datapath/f'{filename}.csv'
+    with open(path) as file:
+        df = pd.read_csv(file)
+    return df
+
