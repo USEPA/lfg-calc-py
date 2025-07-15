@@ -8,20 +8,18 @@ defined in this file are specific to LFG data.
 # to circular reasoning
 from __future__ import annotations
 
-import esupy.processed_data_mgmt
 import pandas as pd
-from pandas import ExcelWriter
+import numpy as np
 from copy import deepcopy
 from functools import partial
+from sympy import exp, symbols
+
+import esupy.processed_data_mgmt
+
 from lfg_calc_py import settings, common, metadata
-from lfg_calc_py.settings import DEFAULT_DOWNLOAD_IF_MISSING
+from lfg_calc_py.settings import DEFAULT_DOWNLOAD_IF_MISSING, datapath
 from lfg_calc_py.lfg_log import reset_log_file, log
 import lfg_calc_py.lfg_yaml as lfg_yaml
-
-import yaml
-from sympy import exp, symbols
-from lfg_calc_py.settings import methodpath, datapath, lfgoutputpath
-
 # from lfg_calc_py.validation import check_if_landfill_is_full
 
 with open(settings.datapath / 'lfg_config.yaml') as f:
@@ -37,23 +35,53 @@ class LFG:
     def __init__(
         self,
         data: pd.DataFrame = None,
-        *args,
+        add_missing_columns: bool = True,
+        fields: dict = None,
+        column_order: List[str] = None,
+        string_null: 'np.nan' or None = np.nan,
         **kwargs
     ) -> None:
 
-        # todo: standardize column names/orders
-        fields = lfg_config['lfg_fields']
-        column_order = lfg_config['lfg_column_order']
+        # Initialize metadata attributes
+        for attribute in self._metadata:
+            if not hasattr(self, attribute):
+                setattr(
+                    self,
+                    attribute,
+                    kwargs.pop(attribute, getattr(data, attribute, None))
+                )
 
-        # todo: drop super - no parent class
-        # super().__init__(data,
-        #                  fields=fields,
-        #                  column_order=column_order,
-        #                  *args, **kwargs)
+        if isinstance(data, pd.DataFrame) and fields is not None:
+            if add_missing_columns:
+                data = data.assign(**{field: None
+                                      for field in fields
+                                      if field not in data.columns})
+            else:
+                fields = {k: v for k, v in fields.items() if k in data.columns}
 
-    # @property
-    # def _constructor(self) -> 'LFG':
-    #     return LFG
+            fill_na_dict = {
+                field: 0 if dtype in ['int', 'float'] else string_null
+                for field, dtype in fields.items()
+            }
+            null_string_dict = {
+                field: {null: string_null
+                        for null in ['nan', '<NA>', 'None', '',
+                                     np.nan, pd.NA, None]}
+                for field, dtype in fields.items() if dtype == 'object'
+            }
+
+            data = (data
+                    .fillna(fill_na_dict)
+                    .replace(null_string_dict)
+                    .astype(fields))
+
+        if isinstance(data, pd.DataFrame) and column_order is not None:
+            data = data[[c for c in column_order if c in data.columns]
+                        + [c for c in data.columns if c not in column_order]]
+
+    @property
+    def _constructor(self) -> 'LFG':
+        return LFG
 
     @classmethod
     def get_lfg_df(
@@ -135,7 +163,7 @@ class LFG:
         #         cls.generateLFG(x, y, z, config=config)
         #     )
 
-        lfg = cls.get_lfg_df(
+        lfg = LFG.get_lfg_df(
             file_metadata=file_metadata,
             download_ok=download_df_ok,
             lfg_generator=lfg_generator,
@@ -170,15 +198,16 @@ class LFG:
                                               filepath=external_config_path,
                                               **kwargs)
         # create instance of LFG
-        lfg_instance = LFG()
-
-        # todo: attach method config to LFG instance
+        lfg_instance = LFG(
+            full_name=method,
+            config=method_config,
+            # external_config_path=external_config_path,
+            # download_df_ok=download_sources_ok,
+            # external_data_path=external_data_path
+        )
 
         # generate lfg df
-        df = lfg_instance.calculate_lfg_emissions(method, method_config)
-
-        df.full_name = method
-        df.config = method_config
+        df = lfg_instance.calculate_lfg_emissions()
 
         # Save df and metadata
         log.info(f'LFG generation complete, saving {method} to file')
@@ -194,30 +223,7 @@ class LFG:
         return df
 
 
-    # method_name = 'Landfill_Example_Material_Specific'
-    #
-    # with open(f"{methodpath}/{method_name}.yaml") as file:
-    #     method_yaml = yaml.safe_load(file)
-
-
-    # All variable names and units are derived from USEPA's LandGEM tool.
-
-    # Defining variables from yaml
-
-    # waste_rate = method_yaml.get("waste_acceptance_rate")
-    # landfill_life = method_yaml.get("landfill_life")
-    # landfill_capacity = method_yaml.get("landfill_capacity")
-    # degradable_organic_carbon = method_yaml.get("degradable_organic_carbon")
-    # degradable_organic_carbon_fraction = method_yaml.get("degradable_organic_carbon_fraction")
-    # material_ratios = method_yaml.get("material_ratios")
-    # material_decay_rates = method_yaml.get("material_decay_rates")
-    # methane_correction_factor = method_yaml.get("methane_correction_factor")
-    # methane_content = method_yaml.get("methane_content")
-    # moisture_conditions = method_yaml.get("moisture_conditions")
-    # LFG_recovery = method_yaml.get("LFG_recovery")
-    # LFG_collection_scenario = method_yaml.get("LFG_collection_scenario")
-
-    # # todo: modify to account for "false"/no default data/all user input data
+    # todo: modify to account for "false"/no default data/all user input data
     def load_default_decay_rates(
             self: 'LFG',
     ):
@@ -230,108 +236,10 @@ class LFG:
             decay_rates = pd.read_csv(file)
         return decay_rates
 
-    # WARM LFG collection efficiencies by year
-    path = datapath/'LFG_collection_scenarios.csv'
-    with open(path) as file:
-        yearly_lfg_collection_efficiencies = pd.read_csv(file)
-
-    # WARM material-specific LFG collection efficiencies
-    path = datapath/'WARM_GasCollectionEfficiencies_v1.csv'
-    with open(path) as file:
-        material_lfg_collection_efficiencies = pd.read_csv(file)
-
-    # Defining calc_year
-    if "calc_year" in self.config:
-        calc_year = self.config.get("calc_year")
-    elif "landfill_close" in self.config:
-        calc_year = self.config.get("landfill_close")
-    else:
-        calc_year = 2024
-        #todo: automatically update to current date
-
-    ## Calling functions ##
-    load_default_decay_rates()
-
-
-    T = landfill_life
-    x = symbols('x')
-
-    # empty dictionary
-    waste_rate_split = {}
-    material_ratio_split = {}
-
-    for key, value in waste_rate.items():
-        # if data is provided as a range, split the range and add waste acceptance for each year to new dictionary
-        if "-" in str(key):
-            y1, y2 = map(int, key.split("-"))
-            for year in range(y1, y2 + 1):
-                waste_rate_split[str(year)] = value
-        # else if entry is a single value, append to new dictionary as-is
-        else:
-            waste_rate_split[str(key)] = value
-
-    for key, value in material_ratios.items():
-        # if data is provided as a range, split the range and add waste acceptance for each year to new dictionary
-        if "-" in key:
-            y1, y2 = map(int, key.split("-"))
-            for year in range(y1, y2 + 1):
-                material_ratio_split[str(year)] = value
-        # else if entry is a single value, append to new dictionary as-is
-        else:
-            material_ratio_split[str(key)] = value
-
-    # convert expanded dictionary into df
-    waste_rate_df = pd.DataFrame(waste_rate_split.items(), columns = ['Year', 'WasteAcceptanceRate'])
-    material_ratio_df = pd.DataFrame(material_ratios.items(), columns = ['Waste Type', 'Waste Fraction'])
-
-
-    # set datatypes
-    waste_rate_df['Year'] = waste_rate_df['Year'].astype(int)
-    waste_rate_df['WasteAcceptanceRate'] = waste_rate_df['WasteAcceptanceRate'].astype(float)
-
-    # subset waste acceptance rate df to include years up-to and including calc year
-    waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
-
-    # add material ratios
-    material_type_list = list(material_ratios.keys())
-
-    #
-    material_decay_rates_df = pd.DataFrame(material_decay_rates.items(),
-                                           columns = ['Waste Type', 'Material Decay Rate'])
-    # Remove excess moisture scenarios
-    conditions_list = ['Dry','Moderate','Wet','Bioreactor','National Average']
-    mc_list = [moisture_conditions]
-    if moisture_conditions in conditions_list:
-        conditions_list = [x for x in conditions_list if x not in mc_list]
-        material_lfg_collection_efficiencies = material_lfg_collection_efficiencies.drop(
-            columns = conditions_list)
-    else:
-        raise ValueError("The moisture conditions are outside the specified range")
-
-    scenario_list = ['Typical operation', 'Worst-case', 'Aggressive', 'California']
-    sc_list = [LFG_collection_scenario]
-    if LFG_collection_scenario in scenario_list:
-        scenario_list = [x for x in scenario_list if x not in sc_list]
-        material_lfg_collection_efficiencies = material_lfg_collection_efficiencies[~material_lfg_collection_efficiencies
-        ['Scenario'].isin(scenario_list)]
-        yearly_lfg_collection_efficiencies = yearly_lfg_collection_efficiencies[~yearly_lfg_collection_efficiencies
-        ['Scenario'].isin(scenario_list)]
-    else:
-        material_lfg_collection_efficiencies = material_lfg_collection_efficiencies.drop(columns = 'Scenario')
-        yearly_lfg_collection_efficiencies = yearly_lfg_collection_efficiencies.drop(columns = 'Scenario')
-
-    # Parameters and checks
-
-    # TODO: add check to match waste type of methane gen values with material ratios (so they align)
-
-
-
-    # Calling the parameter functions
-    # check_if_landfill_is_full(current_capacity)
-    # check_k(k)
 
     def return_waste_acceptance(
             self: 'LFG',
+            waste_rate_df,
             year
     ):
         """
@@ -339,14 +247,18 @@ class LFG:
         :param year:
         :return:
         """
+        df_material = self.config.get('material_list')
+
         try:
-            return float(waste_rate_df_subset.loc[
-                             waste_rate_df_subset['Year'] == year, 'WasteAcceptanceRate'].values[0])
+            return float(waste_rate_df.loc[
+                             waste_rate_df['Year'] == self.config.get('landfill_year'),
+                             'WasteAcceptanceRate'].values[0])
         except IndexError:
             return 0
 
     def return_material_decay_rates(
             self: 'LFG',
+            material_decay_rates_df,
             material
     ):
         """
@@ -358,6 +270,7 @@ class LFG:
 
     def return_material_ratio(
             self: 'LFG',
+            material_ratio_df,
             material
     ):
         """
@@ -370,6 +283,7 @@ class LFG:
 
     def return_gas_collection_efficiency(
             self: 'LFG',
+            material_lfg_collection_efficiencies,
             material
     ):
         """
@@ -378,14 +292,16 @@ class LFG:
         """
         try:
             return float(material_lfg_collection_efficiencies.loc[
-                material_lfg_collection_efficiencies['Material'] == material, 3].values[0])
+                material_lfg_collection_efficiencies['Material'] == material,
+                self.config.get("moisture_conditions")].values[0])
         except IndexError:
             return 0
 
 
     def return_annual_lfg_collection_efficiency(
             self: 'LFG',
-            x
+            annual_lfg_collection_efficiencies,
+            year
     ):
         """
         Return gas collection efficiency by year; return 0 value if LFG is not captured
@@ -393,18 +309,107 @@ class LFG:
         :return:
         """
         try:
-            return float(yearly_lfg_collection_efficiencies.loc[
-                         yearly_lfg_collection_efficiencies['Year'] == x, 'Efficiency'].values[0])
+            return float(annual_lfg_collection_efficiencies.loc[
+                         annual_lfg_collection_efficiencies['Year'] == year, 'Efficiency'].values[0])
         except IndexError:
             return 0
 
-    # todo: first year emissions out of landfill should be 0
 
     def calculate_lfg_emissions(
             self: 'LFG',
-            method,
-            config
     ):
+        # Variable names and units are derived from USEPA's LandGEM tool.
+
+        # WARM LFG collection efficiencies by year
+        annual_lfg_collection_efficiencies = common.load_data_csv('LFG_collection_scenarios')
+
+        # WARM material-specific LFG collection efficiencies
+        material_lfg_collection_efficiencies = common.load_data_csv('WARM_GasCollectionEfficiencies_v1')
+
+        # Defining calc_year
+        if "calc_year" in self.config:
+            calc_year = self.config.get("calc_year")
+        elif "landfill_close" in self.config:
+            calc_year = self.config.get("landfill_close")
+        else:
+            calc_year = 2024
+            #todo: automatically update to current date
+
+        ## Calling functions ##
+        decay_rates = self.load_default_decay_rates()
+
+
+        T = self.config.get("landfill_life")
+        x = symbols('x')
+
+        # empty dictionary
+        waste_rate_split = {}
+        material_ratio_split = {}
+
+        for key, value in self.config.get("waste_acceptance_rate").items():
+            # if data is provided as a range, split the range and add waste acceptance for each year to new dictionary
+            if "-" in str(key):
+                y1, y2 = map(int, key.split("-"))
+                for year in range(y1, y2 + 1):
+                    waste_rate_split[str(year)] = value
+            # else if entry is a single value, append to new dictionary as-is
+            else:
+                waste_rate_split[str(key)] = value
+
+        for key, value in self.config.get("material_ratios").items():
+            # if data is provided as a range, split the range and add waste acceptance for each year to new dictionary
+            if "-" in key:
+                y1, y2 = map(int, key.split("-"))
+                for year in range(y1, y2 + 1):
+                    material_ratio_split[str(year)] = value
+            # else if entry is a single value, append to new dictionary as-is
+            else:
+                material_ratio_split[str(key)] = value
+
+        # convert expanded dictionary into df
+        waste_rate_df = pd.DataFrame(waste_rate_split.items(), columns = ['Year', 'WasteAcceptanceRate'])
+        material_ratio_df = pd.DataFrame(self.config.get("material_ratios").items(),
+                                         columns = ['Waste Type', 'Waste Fraction'])
+
+
+        # set datatypes
+        waste_rate_df['Year'] = waste_rate_df['Year'].astype(int)
+        waste_rate_df['WasteAcceptanceRate'] = waste_rate_df['WasteAcceptanceRate'].astype(float)
+
+        # subset waste acceptance rate df to include years up-to and including calc year
+        waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
+
+        # add material ratios
+        material_type_list = list(self.config.get("material_ratios").keys())
+
+        #
+        material_decay_rates_df = pd.DataFrame(self.config.get("material_decay_rates").items(),
+                                               columns = ['Waste Type', 'Material Decay Rate'])
+        # Remove excess moisture scenarios
+
+        # todo: add try except statement checking if mc is a legitimate request?
+        # conditions_list = ['Dry','Moderate','Wet','Bioreactor','National Average']
+        # try:
+        material_lfg_collection_efficiencies = (
+            material_lfg_collection_efficiencies[
+                ["Material", "Proxy", "Scenario", self.config.get("moisture_conditions")]]
+            .query(f"Scenario=='{self.config.get('LFG_collection_scenario')}'")
+        )
+        # except:
+        #     raise ValueError("The moisture conditions are outside the specified range")
+
+        # Parameters and checks
+
+        # TODO: add check to match waste type of methane gen values with material ratios (so they align)
+
+
+        #
+        # Calling the parameter functions
+        # check_if_landfill_is_full(current_capacity)
+        # check_k(k)
+
+        # todo: first year emissions out of landfill should be 0
+
         # def calculate_landfill_emissions(method_name):
         # Methane calculation
         # methane_total = 0.0
@@ -423,20 +428,21 @@ class LFG:
             for material in material_type_list:
                 # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
                 methane_annual = (
-                        return_material_ratio(material)
-                        * (return_waste_acceptance(calc_year + x)
-                           * methane_correction_factor
-                           * degradable_organic_carbon
-                           * degradable_organic_carbon_fraction
-                           * methane_content
+                        self.return_material_ratio(material_ratio_df, material)
+                        * (self.return_waste_acceptance(waste_rate_df_subset, calc_year + x)
+                           * self.config.get("methane_correction_factor")
+                           * self.config.get("degradable_organic_carbon")
+                           * self.config.get("degradable_organic_carbon_fraction")
+                           * self.config.get("methane_content")
                            * 16/12
-                           * (exp(-return_material_decay_rates(material) * (T - x - 1))
-                              - exp(-return_material_decay_rates(material) * (T - x)))
+                           * (exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x - 1))
+                              - exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x)))
                            )
                 )
                 methane_annual_captured = (
-                    methane_annual * return_gas_collection_efficiency(material)
-                    * return_annual_lfg_collection_efficiency(x)
+                    methane_annual
+                    * self.return_gas_collection_efficiency(material_lfg_collection_efficiencies, material)
+                    * self.return_annual_lfg_collection_efficiency(annual_lfg_collection_efficiencies, x)
                 )
                 methane_totals[material] += methane_annual  # cumulative total for material
                 row[f"{material} Methane Annual"] = methane_annual  # annual value
@@ -451,7 +457,7 @@ class LFG:
         df = pd.DataFrame(emissions_data)
         df = df.assign(Unit="Metric Tons")
         # todo: update file name to be method file name
-        df.to_csv(f"{lfgoutputpath}/{method_name}.csv", index=False)
+        # df.to_csv(f"{lfgoutputpath}/{self.full_name}.csv", index=False)
 
         return df
 
