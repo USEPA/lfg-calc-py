@@ -23,11 +23,11 @@ def set_meta(name_data, category=None):
     """
     df_meta = FileMeta()
     df_meta.tool = PKG
-    # df_meta.category = category
+    df_meta.category = ""
     df_meta.name_data = name_data
     df_meta.tool_version = PKG_VERSION_NUMBER
     df_meta.git_hash = GIT_HASH
-    df_meta.ext = WRITE_FORMAT
+    df_meta.ext = "csv"
     df_meta.date_created = \
         pd.to_datetime('today').strftime('%Y-%m-%d %H:%M:%S')
     return df_meta
