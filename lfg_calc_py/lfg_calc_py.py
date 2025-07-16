@@ -35,6 +35,7 @@ class LFG:
     def __init__(
         self,
         data: pd.DataFrame = None,
+        *args,
         add_missing_columns: bool = True,
         fields: dict = None,
         column_order: List[str] = None,
@@ -79,9 +80,13 @@ class LFG:
             data = data[[c for c in column_order if c in data.columns]
                         + [c for c in data.columns if c not in column_order]]
 
+        self.data = data
+
+
     @property
     def _constructor(self) -> 'LFG':
         return LFG
+
 
     @classmethod
     def get_lfg_df(
@@ -207,12 +212,13 @@ class LFG:
         )
 
         # generate lfg df
-        df = lfg_instance.calculate_lfg_emissions()
+        lfg = lfg_instance.calculate_lfg_emissions()
 
         # Save df and metadata
         log.info(f'LFG generation complete, saving {method} to file')
         meta = metadata.set_meta(method)
-        esupy.processed_data_mgmt.write_df_to_file(df, settings.paths, meta)
+        # save the emissions data to csv
+        esupy.processed_data_mgmt.write_df_to_file(lfg.data, settings.paths, meta)
         reset_log_file(method, meta)
         metadata.write_metadata(source_name=method,
                                 config=common.load_yaml_dict(
@@ -220,7 +226,7 @@ class LFG:
                                 df_meta=meta
                                 )
 
-        return df
+        return lfg
 
 
     # todo: modify to account for "false"/no default data/all user input data
@@ -240,14 +246,12 @@ class LFG:
     def return_waste_acceptance(
             self: 'LFG',
             waste_rate_df,
-            year
     ):
         """
         Return the waste acceptance for a year, return 0 value if no waste managed that year
         :param year:
         :return:
         """
-        df_material = self.config.get('material_list')
 
         try:
             return float(waste_rate_df.loc[
@@ -453,16 +457,13 @@ class LFG:
 
             emissions_data.append(row)  # Append row data to list
 
-
         df = pd.DataFrame(emissions_data)
         df = df.assign(Unit="Metric Tons")
-        # todo: update file name to be method file name
-        # df.to_csv(f"{lfgoutputpath}/{self.full_name}.csv", index=False)
+        # store emissions data within self
+        self.data = df
 
-        return df
+        return self
 
 
-
-    # print(f"Total methane generation in year {calc_year}: {methane_total} tonnes CH4")
 
 
