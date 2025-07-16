@@ -246,6 +246,7 @@ class LFG:
     def return_waste_acceptance(
             self: 'LFG',
             waste_rate_df,
+            year
     ):
         """
         Return the waste acceptance for a year, return 0 value if no waste managed that year
@@ -255,7 +256,7 @@ class LFG:
 
         try:
             return float(waste_rate_df.loc[
-                             waste_rate_df['Year'] == self.config.get('landfill_year'),
+                             waste_rate_df['Year'] == year,
                              'WasteAcceptanceRate'].values[0])
         except IndexError:
             return 0
