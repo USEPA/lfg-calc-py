@@ -131,14 +131,14 @@ class LFG:
         return lfg
 
     @classmethod
-    def return_LFG(
+    def return_LFG_calculations(
         cls,
         method: str,
         config: dict = None,
         # external_config_path: str = None,
         download_df_ok: bool = DEFAULT_DOWNLOAD_IF_MISSING,
         **kwargs
-    ) -> 'LFG':
+    ) -> 'pd.DataFrame':
         """
         Loads stored LFG output. If it is not
         available, tries to download it from EPA's remote server (if
@@ -173,7 +173,7 @@ class LFG:
             **kwargs
         )
 
-        return lfg
+        return pd.DataFrame(lfg.data)
 
     @classmethod
     def generateLFG(

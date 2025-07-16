@@ -4,7 +4,7 @@
 
 import pandas as pd
 
-from lfg_calc_py.WARM_script import LFG
+from lfg_calc_py.lfg_calc_py import LFG
 from lfg_calc_py.settings import DEFAULT_DOWNLOAD_IF_MISSING
 
 
@@ -24,10 +24,11 @@ def getLFGCalculations(
         remote server prior to generating if file not found locally
     :return: dataframe in flow by sector format
     """
-    fbs = LFG.return_LFG(
+    df = LFG.return_LFG_calculations(
         method=methodname,
         # external_config_path=external_config_path,
         # download_df_ok= download_df_if_missing,
         **kwargs
     )
-    return pd.DataFrame(fbs)
+
+    return df
