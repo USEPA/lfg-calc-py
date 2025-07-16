@@ -42,7 +42,7 @@ def load_default_decay_rates():
     return decay_rates
 
 def load_LFG_collection_efficiency():
-    path = datapath/'LFG_collection_scenarios.csv'
+    path = datapath/'LFG_collection_scenario_values.csv'
     with open(path) as file:
         lfg_collection_efficiencies = pd.read_csv(file)
     return lfg_collection_efficiencies
