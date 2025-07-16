@@ -56,13 +56,13 @@ def get_log_file_handler(name, level=logging.DEBUG):
     h.setFormatter(file_formatter)
     return h
 
-log_file_handler = get_log_file_handler('lfg_cal_py.log', logging.INFO)
+log_file_handler = get_log_file_handler('lfg_calc_py.log', logging.INFO)
 
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(console_formatter)
 
-log = logging.getLogger('lfg_cal_py')
+log = logging.getLogger('lfg_calc_py')
 log.addHandler(console_handler)
 log.addHandler(log_file_handler)
 log.propagate = False
