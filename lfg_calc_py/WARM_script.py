@@ -113,10 +113,11 @@ material_type_list = list(material_ratios.keys())
 material_decay_rates_df = pd.DataFrame(material_decay_rates.items(),
                                        columns = ['Waste Type', 'Material Decay Rate'])
 
-material_lfg_sub = material_lfg_collection_efficiencies[["Material", "Proxy", "Scenario", moisture_conditions]]
-# todo: fix next line
-material_lfg_sub_v2 = material_lfg_sub.query(f"Scenario=='{LFG_collection_scenario}'",inplace=True)
-
+material_lfg_collection_efficiencies = (
+    material_lfg_collection_efficiencies[
+        ["Material", "Proxy", "Scenario", method_yaml.get("moisture_conditions")]]
+    .query(f"Scenario=='{method_yaml.get('LFG_collection_scenario')}'")
+)
 # Parameters and checks
 
 # TODO: add check to match waste type of methane gen values with material ratios (so they align)
@@ -163,7 +164,8 @@ def return_gas_collection_efficiency(material):
     """
     try:
         return float(material_lfg_collection_efficiencies.loc[
-            material_lfg_collection_efficiencies['Material'] == material, 3].values[0])
+            material_lfg_collection_efficiencies['Material'] == material,
+            method_yaml.get("moisture_conditions")].values[0])
     except IndexError:
         return 0
 
