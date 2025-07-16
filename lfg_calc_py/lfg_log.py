@@ -6,66 +6,57 @@ from lfg_calc_py.settings import logoutputpath
 
 try:
     from colorama import init, Fore, Style
-except ModuleNotFoundError:
-    print('Install colorama for colored log output')
-    console_formatter = logging.Formatter(
-        '%(asctime)s %(levelname)-8s %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S')
-else:
     init()
-
     class ColoredFormatter(logging.Formatter):
         FORMATS = {
-            logging.DEBUG: logging.Formatter('%(asctime)s ' + Fore.CYAN
-                                             + '%(levelname)-8s' + Fore.RESET
-                                             + ' %(message)s',
-                                             datefmt='%Y-%m-%d %H:%M:%S'),
-            logging.INFO: logging.Formatter('%(asctime)s ' + Fore.GREEN
-                                            + '%(levelname)-8s' + Fore.RESET
-                                            + ' %(message)s',
-                                            datefmt='%Y-%m-%d %H:%M:%S'),
-            logging.WARNING: logging.Formatter('%(asctime)s ' + Fore.YELLOW
-                                               + '%(levelname)-8s' + Fore.RESET
-                                               + ' %(message)s',
-                                               datefmt='%Y-%m-%d %H:%M:%S'),
-            logging.ERROR: logging.Formatter('%(asctime)s ' + Fore.RED
-                                             + '%(levelname)-8s' + Fore.RESET
-                                             + ' %(message)s',
-                                             datefmt='%Y-%m-%d %H:%M:%S'),
-            logging.CRITICAL: logging.Formatter('%(asctime)s ' + Fore.RED
-                                                + Style.BRIGHT
-                                                + '%(levelname)-8s'
-                                                + Style.RESET_ALL
-                                                + ' %(message)s',
-                                                datefmt='%Y-%m-%d %H:%M:%S')
+            logging.DEBUG: logging.Formatter(
+                Fore.CYAN + '%(asctime)s %(levelname)-8s' + Fore.RESET + ' %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'),
+            logging.INFO: logging.Formatter(
+                Fore.GREEN + '%(asctime)s %(levelname)-8s' + Fore.RESET + ' %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'),
+            logging.WARNING: logging.Formatter(
+                Fore.YELLOW + '%(asctime)s %(levelname)-8s' + Fore.RESET + ' %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'),
+            logging.ERROR: logging.Formatter(
+                Fore.RED + '%(asctime)s %(levelname)-8s' + Fore.RESET + ' %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S'),
+            logging.CRITICAL: logging.Formatter(
+                Fore.RED + Style.BRIGHT + '%(asctime)s %(levelname)-8s' + Style.RESET_ALL + ' %(message)s',
+                datefmt='%Y-%m-%d %H:%M:%S')
         }
 
         def format(self, record):
-            return self.FORMATS.get(record.levelno).format(record)
-
-    console_formatter = ColoredFormatter()
+            return self.FORMATS.get(record.levelno, self._fmt).format(record)
+except ModuleNotFoundError:
+    print("Install `colorama` for colored console logs")
+    ColoredFormatter = logging.Formatter
 
 file_formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
                                    datefmt='%Y-%m-%d %H:%M:%S')
 
-def get_log_file_handler(name, level=logging.DEBUG):
-    h = logging.FileHandler(
-        logoutputpath / name,
-        mode='w', encoding='utf-8')
-    h.setLevel(level)
-    h.setFormatter(file_formatter)
-    return h
+def get_log_file_handler(name='lfg_calc_py.log', level=logging.INFO):
+    handler = logging.FileHandler(logoutputpath / name, mode='w', encoding='utf-8')
+    handler.setLevel(level)
+    handler.setFormatter(file_formatter)
+    return handler
 
-log_file_handler = get_log_file_handler('lfg_calc_py.log', logging.INFO)
+def setup_logger(name='lfg_calc_py', level=logging.DEBUG):
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.propagate = False
 
-console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setLevel(logging.INFO)
-console_handler.setFormatter(console_formatter)
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(level)
+    console_handler.setFormatter(ColoredFormatter())
+    logger.addHandler(console_handler)
 
-log = logging.getLogger('lfg_calc_py')
-log.addHandler(console_handler)
-log.addHandler(log_file_handler)
-log.propagate = False
+    file_handler = get_log_file_handler()
+    logger.addHandler(file_handler)
+
+    return logger
+
+log = setup_logger()
 
 
 def reset_log_file(filename, _meta):
@@ -93,5 +84,3 @@ def reset_log_file(filename, _meta):
         if isinstance(h, logging.FileHandler):
             log.removeHandler(h)
     log.addHandler(get_log_file_handler('lfg_calc_py.log', logging.INFO))
-
-
