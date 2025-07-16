@@ -79,6 +79,6 @@ else:
     GIT_HASH = None
 
 # Common declaration of write format for package data products
-WRITE_FORMAT = "parquet"
+WRITE_FORMAT = "csv"
 
 

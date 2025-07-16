@@ -9,7 +9,6 @@ FlowByActivity (FBA) and FlowBySector (FBS) datasets
 import pandas as pd
 from esupy.processed_data_mgmt import FileMeta, write_metadata_to_file, \
     read_source_metadata
-from lfg_calc_py.lfg_log import log
 from lfg_calc_py.settings import paths, PKG, PKG_VERSION_NUMBER, WRITE_FORMAT, \
     GIT_HASH, GIT_HASH_LONG
 
@@ -27,7 +26,7 @@ def set_meta(name_data, category=None):
     df_meta.name_data = name_data
     df_meta.tool_version = PKG_VERSION_NUMBER
     df_meta.git_hash = GIT_HASH
-    df_meta.ext = "csv"
+    df_meta.ext = WRITE_FORMAT
     df_meta.date_created = \
         pd.to_datetime('today').strftime('%Y-%m-%d %H:%M:%S')
     return df_meta
@@ -51,9 +50,10 @@ def write_metadata(source_name, config, df_meta, **kwargs):
         f'https://github.com/USEPA/lfg-calc-py/blob/{GIT_HASH_LONG}/lfg_calc_py/' \
         f'methods/{source_name}.yaml'
 
-    df_dict.update(df_meta)
+    # append url to df metadata
+    df_meta.tool_meta = df_dict
 
-    write_metadata_to_file(paths, df_dict)
+    write_metadata_to_file(paths, df_meta)
 
     return df_dict
 
