@@ -20,7 +20,7 @@ datapath = MODULEPATH / 'data'
 paths = Paths()
 paths.local_path = paths.local_path / 'lfg-calc-py'
 outputpath = paths.local_path
-lfgoutputpath = outputpath / 'MethodOutput'
+lfgoutputpath = outputpath / 'LFG'
 logoutputpath = outputpath / 'Logs'
 
 # ensure directories exist

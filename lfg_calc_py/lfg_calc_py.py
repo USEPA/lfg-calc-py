@@ -216,7 +216,7 @@ class LFG:
 
         # Save df and metadata
         log.info(f'LFG generation complete, saving {method} to file')
-        meta = metadata.set_meta(method)
+        meta = metadata.set_meta(method, 'LFG')
         # save the emissions data to csv
         esupy.processed_data_mgmt.write_df_to_file(lfg.data, settings.paths, meta)
         reset_log_file(method, meta)
@@ -464,7 +464,3 @@ class LFG:
         self.data = df
 
         return self
-
-
-
-
