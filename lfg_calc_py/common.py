@@ -5,6 +5,7 @@ import pandas as pd
 
 from lfg_calc_py.settings import methodpath, datapath
 import lfg_calc_py.lfg_yaml as lfg_calc_py_yaml
+from lfg_calc_py.lfg_log import log
 
 
 def load_yaml_dict(filename, filepath=None, **kwargs):
