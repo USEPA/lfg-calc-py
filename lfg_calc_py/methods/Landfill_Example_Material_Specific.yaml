@@ -7,7 +7,7 @@ moisture_conditions: Moderate # dry, moderate, wet, bioreactor, national average
 source_recycling_mix: current mix # current mix, 100% virgin
 anaerobic_digestion: none # wet, dry, none
 digestion_process: none # cured, not cured, none
-waste_acceptance_rate: { 1
+waste_acceptance_rate: { 2023: 1
                         }
 # include waste types, option to recycle, landfill, combust, compost, anaerobically digest
 

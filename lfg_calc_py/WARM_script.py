@@ -200,7 +200,6 @@ methane_totals = {material: 0.0 for material in material_type_list}
 for x in range(0, T):
     row = {"Year": calc_year + x}
     for material in material_type_list:
-        # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
         methane_annual = (
                 return_material_ratio(material)
                 * (return_waste_acceptance(calc_year + x)
