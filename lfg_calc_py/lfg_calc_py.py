@@ -331,15 +331,6 @@ class LFG:
         # WARM material-specific LFG collection efficiencies
         material_lfg_collection_efficiencies = common.load_data_csv('WARM_GasCollectionEfficiencies_v1')
 
-        # Defining calc_year
-        if "calc_year" in self.config:
-            calc_year = self.config.get("calc_year")
-        elif "landfill_close" in self.config:
-            calc_year = self.config.get("landfill_close")
-        else:
-            calc_year = 2024
-            #todo: automatically update to current date
-
         ## Calling functions ##
         decay_rates = self.load_default_decay_rates()
 
@@ -376,10 +367,22 @@ class LFG:
         material_ratio_df = pd.DataFrame(self.config.get("material_ratios").items(),
                                          columns = ['Waste Type', 'Waste Fraction'])
 
-
         # set datatypes
         waste_rate_df['Year'] = waste_rate_df['Year'].astype(int)
         waste_rate_df['WasteAcceptanceRate'] = waste_rate_df['WasteAcceptanceRate'].astype(float)
+
+        # define first year of waste acceptance
+        year_init = waste_rate_df['Year'][0]
+
+        # Defining calc_year
+        if "calc_year" in self.config:
+            calc_year = self.config.get("calc_year")
+        elif "landfill_close" in self.config:
+            calc_year = self.config.get("landfill_close")
+        # default warm calculation
+        else:
+            calc_year = year_init + self.config.get("landfill_life")
+        #     todo: automatically update to current date
 
         # subset waste acceptance rate df to include years up-to and including calc year
         waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
@@ -429,20 +432,20 @@ class LFG:
         # Range upper limit in summation is 1 higher than IPCC equation
         # due to range function in Python
         for x in range(0, T):
-            row = {"Year": calc_year + x}
+            row = {"Year": year_init + x}
             for material in material_type_list:
                 # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
                 methane_annual = (
                         self.return_material_ratio(material_ratio_df, material)
-                        * (self.return_waste_acceptance(waste_rate_df_subset, calc_year + x)
-                           * self.config.get("methane_correction_factor")
-                           * self.config.get("degradable_organic_carbon")
-                           * self.config.get("degradable_organic_carbon_fraction")
-                           * self.config.get("methane_content")
-                           * 16/12
-                           * (exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x - 1))
-                              - exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x)))
-                           )
+                        * self.return_waste_acceptance(waste_rate_df_subset, year_init + x)
+                        * self.config.get("methane_correction_factor")
+                        * self.config.get("degradable_organic_carbon")
+                        * self.config.get("degradable_organic_carbon_fraction")
+                        * self.config.get("methane_content")
+                        * 16/12
+                        * (exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x - 1))
+                           - exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x)))
+
                 )
                 methane_annual_captured = (
                     methane_annual
