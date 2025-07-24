@@ -7,7 +7,7 @@ moisture_conditions: Moderate # dry, moderate, wet, bioreactor, national average
 source_recycling_mix: current mix # current mix, 100% virgin
 anaerobic_digestion: none # wet, dry, none
 digestion_process: none # cured, not cured, none
-waste_acceptance_rate: { 2023: 1
+waste_acceptance_rate: { 2023: 100
                         }
 # include waste types, option to recycle, landfill, combust, compost, anaerobically digest
 
@@ -22,7 +22,7 @@ methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic 
 # year of deposition
 landfill_life: 100
 
-calc_year: 2024
+#calc_year: 2024
 
 ## Transportation ##
 transportation_distances: default # default, provide information
