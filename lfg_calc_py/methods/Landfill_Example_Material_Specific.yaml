@@ -3,11 +3,11 @@
 
 ## Landfill characteristics
 state: Wyoming # state for electric grid; all states + national average
-moisture_conditions: Moderate # dry, moderate, wet, bioreactor, national average
+moisture_conditions: Dry # dry, moderate, wet, bioreactor, national average
 source_recycling_mix: current mix # current mix, 100% virgin
 anaerobic_digestion: none # wet, dry, none
 digestion_process: none # cured, not cured, none
-waste_acceptance_rate: { 2023: 100
+waste_acceptance_rate: { 2023: 100000
                         }
 # include waste types, option to recycle, landfill, combust, compost, anaerobically digest
 
@@ -30,11 +30,11 @@ transportation_distances: default # default, provide information
 
 # Fraction of annual waste by material
 material_ratios:
-  food: 0.25
+  Mixed MSW: 0.25
     # incorporate year later
     #"1960-2018": 0.25
     #"2018-2023": 0.23
-  paper: 0.75
+  Corrugated Containers: 0.75
     #"1960-2018": 0.75
     #"2018-2023": 0.77
 
@@ -43,9 +43,9 @@ material_ratios:
 default_k_values: Barlaz  # False, IPCC, Barlaz
 #k: 0.05  # Methane generation rate, 1/year
 # override default decay rates or user provides all decay rates
-material_decay_rates:
-  food: 0.1
-  paper: 0.07
+#material_decay_rates:
+#  food: 0.1
+#  paper: 0.07
 
 ## Landfill Gas Recovery Options
 LFG_recovery: Recover energy  # False, national_average, recover_energy, flare
