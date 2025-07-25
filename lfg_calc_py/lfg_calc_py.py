@@ -267,11 +267,22 @@ class LFG:
             material
     ):
         """
-        Return the methane generation rate for a waste type
+        Return the methane generation rate for a material type
         :return:
         """
+
+        if "material_decay_rates" in self.config:
+            material_decay_rates_df = pd.DataFrame(self.config.get("material_decay_rates").items(),
+                                                   columns=['Material', 'Decay_Rate'])
+        else:
+            material_decay_rates_df = common.load_data_csv('WARM_Barlaz_Material_Decay_Rates.csv')
+            material_decay_rates_df = (
+                material_decay_rates_df[
+                    ["Material", "Landfill_Moisture_Conditions", "Decay_Rate"]]
+                .query(f"Landfill_Moisture_Conditions=='{self.config.get('moisture_conditions')}'")
+            )
         return float(material_decay_rates_df.loc[
-                         material_decay_rates_df['Waste Type'] == material, 'Material Decay Rate'].values[0])
+                         material_decay_rates_df['Material'] == material, 'Decay_Rate'].values[0])
 
     def return_material_ratio(
             self: 'LFG',
@@ -335,7 +346,6 @@ class LFG:
         decay_rates = self.load_default_decay_rates()
 
 
-        T = self.config.get("landfill_life")
         x = symbols('x')
 
         # empty dictionary
@@ -382,7 +392,9 @@ class LFG:
         # default warm calculation
         else:
             calc_year = year_init + self.config.get("landfill_life")
-        #     todo: automatically update to current date
+
+        # Defining T as the range of calculation
+        T = year_init - calc_year
 
         # subset waste acceptance rate df to include years up-to and including calc year
         waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
@@ -390,12 +402,8 @@ class LFG:
         # add material ratios
         material_type_list = list(self.config.get("material_ratios").keys())
 
-        #
-        material_decay_rates_df = pd.DataFrame(self.config.get("material_decay_rates").items(),
-                                               columns = ['Waste Type', 'Material Decay Rate'])
         # Remove excess moisture scenarios
 
-        # todo: add try except statement checking if mc is a legitimate request?
         # conditions_list = ['Dry','Moderate','Wet','Bioreactor','National Average']
         # try:
         material_lfg_collection_efficiencies = (
@@ -408,7 +416,6 @@ class LFG:
 
         # Parameters and checks
 
-        # TODO: add check to match waste type of methane gen values with material ratios (so they align)
 
 
         #
