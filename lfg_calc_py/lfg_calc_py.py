@@ -263,7 +263,6 @@ class LFG:
 
     def return_material_decay_rates(
             self: 'LFG',
-            material_decay_rates_df,
             material
     ):
         """
@@ -275,9 +274,8 @@ class LFG:
             material_decay_rates_df = pd.DataFrame(self.config.get("material_decay_rates").items(),
                                                    columns=['Material', 'Decay_Rate'])
         else:
-            material_decay_rates_df = common.load_data_csv('WARM_Barlaz_Material_Decay_Rates.csv')
             material_decay_rates_df = (
-                material_decay_rates_df[
+                self.load_default_decay_rates()[
                     ["Material", "Landfill_Moisture_Conditions", "Decay_Rate"]]
                 .query(f"Landfill_Moisture_Conditions=='{self.config.get('moisture_conditions')}'")
             )
@@ -343,7 +341,7 @@ class LFG:
         material_lfg_collection_efficiencies = common.load_data_csv('WARM_GasCollectionEfficiencies_v1')
 
         ## Calling functions ##
-        decay_rates = self.load_default_decay_rates()
+        #trydf = self.return_material_decay_rates('Newspaper')
 
 
         x = symbols('x')
@@ -394,7 +392,7 @@ class LFG:
             calc_year = year_init + self.config.get("landfill_life")
 
         # Defining T as the range of calculation
-        T = year_init - calc_year
+        T = calc_year - year_init
 
         # subset waste acceptance rate df to include years up-to and including calc year
         waste_rate_df_subset = waste_rate_df[waste_rate_df['Year'] <= calc_year-1]
@@ -441,7 +439,6 @@ class LFG:
         for x in range(0, T):
             row = {"Year": year_init + x}
             for material in material_type_list:
-                # and generation rates? Turn methane_annual into a dataframe to separate out contributions by waste type?
                 methane_annual = (
                         self.return_material_ratio(material_ratio_df, material)
                         * self.return_waste_acceptance(waste_rate_df_subset, year_init + x)
@@ -450,8 +447,8 @@ class LFG:
                         * self.config.get("degradable_organic_carbon_fraction")
                         * self.config.get("methane_content")
                         * 16/12
-                        * (exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x - 1))
-                           - exp(-self.return_material_decay_rates(material_decay_rates_df, material) * (T - x)))
+                        * (exp(-self.return_material_decay_rates(material) * (T - x - 1))
+                           - exp(-self.return_material_decay_rates(material) * (T - x)))
 
                 )
                 methane_annual_captured = (
