@@ -327,6 +327,7 @@ class LFG:
                          annual_lfg_collection_efficiencies['Year'] == year, 'Efficiency'].values[0])
         except IndexError:
             return 0
+        # TODO: ensure that the function returns efficiency for year 15 when year >15
 
 
     def calculate_lfg_emissions(
@@ -339,9 +340,6 @@ class LFG:
 
         # WARM material-specific LFG collection efficiencies
         material_lfg_collection_efficiencies = common.load_data_csv('WARM_GasCollectionEfficiencies_v1')
-
-        ## Calling functions ##
-        #trydf = self.return_material_decay_rates('Newspaper')
 
 
         x = symbols('x')
@@ -401,38 +399,24 @@ class LFG:
         material_type_list = list(self.config.get("material_ratios").keys())
 
         # Remove excess moisture scenarios
-
-        # conditions_list = ['Dry','Moderate','Wet','Bioreactor','National Average']
-        # try:
         material_lfg_collection_efficiencies = (
             material_lfg_collection_efficiencies[
                 ["Material", "Proxy", "Scenario", self.config.get("moisture_conditions")]]
             .query(f"Scenario=='{self.config.get('LFG_collection_scenario')}'")
         )
-        # except:
-        #     raise ValueError("The moisture conditions are outside the specified range")
 
-        # Parameters and checks
-
-
-
-        #
-        # Calling the parameter functions
-        # check_if_landfill_is_full(current_capacity)
-        # check_k(k)
 
         # todo: first year emissions out of landfill should be 0
 
-        # def calculate_landfill_emissions(method_name):
         # Methane calculation
-        # methane_total = 0.0
         methane_annual = 0.0
-        methane_df = pd.DataFrame()
 
         # empty data
         emissions_data = []
         # Initial cumulative methane totals are 0 for each material
-        methane_totals = {material: 0.0 for material in material_type_list}
+        methane_total_gen = {material: 0.0 for material in material_type_list}
+        methane_total_capture = {material: 0.0 for material in material_type_list}
+        methane_total_emit = {material: 0.0 for material in material_type_list}
 
         # Range upper limit in summation is 1 higher than IPCC equation
         # due to range function in Python
@@ -456,17 +440,19 @@ class LFG:
                     * self.return_gas_collection_efficiency(material_lfg_collection_efficiencies, material)
                     * self.return_annual_lfg_collection_efficiency(annual_lfg_collection_efficiencies, x)
                 )
-                methane_totals[material] += methane_annual  # cumulative total for material
-                row[f"{material} Methane Annual"] = methane_annual  # annual value
-                row[f"{material} Methane Total"] = methane_totals[material]  # cumulative
-                # todo: add new row item for unit
-                # todo: new columns for summed materials
-                # todo: add column for captured LFG
+                methane_total_gen[material] += methane_annual  # cumulative total for material
+                methane_total_capture[material] += methane_annual_captured  # cumulative total for material
+
+                row[f"{material} Annual Methane Generation, Tonnes CH4"] = methane_annual  # annual value
+                row[f"{material} Annual Methane Capture, Tonnes CH4"] = methane_annual_captured  # annual value
+                row[f"{material} Annual Methane Emitted, Tonnes CH4"] = methane_annual - methane_annual_captured  # annual value
+                row[f"{material} Total Methane Generation, Tonnes CH4"] = methane_total_gen[material]  # cumulative
+                row[f"{material} Total Methane Capture, Tonnes CH4"] = methane_total_capture[material]  # cumulative
+                row[f"{material} Total Methane Emitted, Tonnes CH4"] = methane_total_emit[material]  # cumulative
 
             emissions_data.append(row)  # Append row data to list
 
         df = pd.DataFrame(emissions_data)
-        df = df.assign(Unit="Metric Tons")
         # store emissions data within self
         self.data = df
 
