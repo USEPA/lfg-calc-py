@@ -405,9 +405,6 @@ class LFG:
             .query(f"Scenario=='{self.config.get('LFG_collection_scenario')}'")
         )
 
-
-        # todo: first year emissions out of landfill should be 0
-
         # Methane calculation
 
         # empty data
