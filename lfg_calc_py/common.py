@@ -58,6 +58,8 @@ def load_data_csv(filename):
     """
     path = datapath/f'{filename}.csv'
     with open(path) as file:
-        df = pd.read_csv(file)
+        df = pd.read_csv(file, encoding='utf-16')
+    # replace Byte Order Mark
+    df.columns = df.columns.str.replace('ï»¿', '')
     return df
 
