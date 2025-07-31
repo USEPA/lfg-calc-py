@@ -2,14 +2,9 @@
 # for food and paper
 
 ## Landfill characteristics
-state: Wyoming # state for electric grid; all states + national average
 moisture_conditions: Dry # dry, moderate, wet, bioreactor, national average
-source_recycling_mix: current mix # current mix, 100% virgin
-anaerobic_digestion: none # wet, dry, none
-digestion_process: none # cured, not cured, none
 waste_acceptance_rate: { 2023: 100000
                         }
-# include waste types, option to recycle, landfill, combust, compost, anaerobically digest
 
 ## Model Parameters
 # use_default_model_parameters: False  # True, False
@@ -20,13 +15,10 @@ degradable_organic_carbon_fraction: 0.5 # fraction of the degradable organic car
 methane_content: 0.50 # Fraction by volume of methane in the landfill gas
 methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic decomposition in the
 # year of deposition
-landfill_life: 100
+landfill_lifespan: 100 # Default lifespan of landfill from open to close
 
 #calc_year: 2024
 
-## Transportation ##
-transportation_distances: default # default, provide information
-# transportation information for: landfill, combustion, recycling, composting, anaerobic digestion
 
 # Fraction of annual waste by material
 material_ratios:

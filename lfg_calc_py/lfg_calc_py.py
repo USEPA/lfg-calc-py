@@ -336,7 +336,7 @@ class LFG:
         # Variable names and units are derived from USEPA's LandGEM tool.
 
         # WARM LFG collection efficiencies by year
-        annual_lfg_collection_efficiencies = common.load_data_csv('LFG_collection_scenario_values_v2')
+        annual_lfg_collection_efficiencies = common.load_data_csv('LFG_collection_scenario_values')
 
         # WARM material-specific LFG collection efficiencies
         material_lfg_collection_efficiencies = common.load_data_csv('WARM_GasCollectionEfficiencies_v1')
