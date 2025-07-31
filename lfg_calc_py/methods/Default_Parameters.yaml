@@ -8,4 +8,3 @@ degradable_organic_carbon_fraction: 0.5 # fraction of the degradable organic car
 methane_content: 0.50 # Fraction by volume of methane in the landfill gas
 methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic decomposition in the
 # year of deposition
-landfill_lifespan: 100
