@@ -2,6 +2,7 @@
 # for food and paper
 
 ## Landfill characteristics
+state: Wyoming # state for electric grid; all states + national average
 moisture_conditions: Dry # dry, moderate, wet, bioreactor, national average
 waste_acceptance_rate: { 2023: 100000
                         }
