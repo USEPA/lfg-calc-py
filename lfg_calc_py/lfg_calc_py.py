@@ -315,19 +315,26 @@ class LFG:
     def return_annual_lfg_collection_efficiency(
             self: 'LFG',
             annual_lfg_collection_efficiencies,
-            year
+            y
     ):
         """
         Return gas collection efficiency by year; return 0 value if LFG is not captured
         :param year:
         :return:
         """
-        try:
+        # try:
+        #     return float(annual_lfg_collection_efficiencies.loc[
+        #                  annual_lfg_collection_efficiencies['Year'] == year, 'Efficiency'].values[0])
+        # except IndexError:
+        #     return 0
+
+        if y<=15:
             return float(annual_lfg_collection_efficiencies.loc[
-                         annual_lfg_collection_efficiencies['Year'] == year, 'Efficiency'].values[0])
-        except IndexError:
-            return 0
-        # TODO: ensure that the function returns efficiency for year 15 when year >15
+                             annual_lfg_collection_efficiencies['Year'] == y, 'Efficiency'].values[0])
+        elif y>15:
+            return float(annual_lfg_collection_efficiencies.loc[
+                             annual_lfg_collection_efficiencies['Year'] == 15, 'Efficiency'].values[0])
+        else: return 0
 
 
     def calculate_lfg_emissions(
@@ -384,7 +391,7 @@ class LFG:
             calc_year = self.config.get("landfill_close")
         # default warm calculation
         else:
-            calc_year = year_init + self.config.get("landfill_life")
+            calc_year = year_init + self.config.get("landfill_lifespan")
 
         # Defining T as the range of calculation
         T = calc_year - year_init
@@ -395,10 +402,16 @@ class LFG:
         # add material ratios
         material_type_list = list(self.config.get("material_ratios").keys())
 
+        # # Remove excess moisture scenarios
+        # material_lfg_collection_efficiencies = (
+        #     material_lfg_collection_efficiencies[
+        #         ["Material", "Proxy", "Scenario", self.config.get("moisture_conditions")]]
+        #     .query(f"Scenario=='{self.config.get('LFG_collection_scenario')}'")
+        # )
         # Remove excess moisture scenarios
-        material_lfg_collection_efficiencies = (
-            material_lfg_collection_efficiencies[
-                ["Material", "Proxy", "Scenario", self.config.get("moisture_conditions")]]
+        annual_lfg_collection_efficiencies = (
+            annual_lfg_collection_efficiencies[
+                ["Scenario", "Year", "Efficiency"]]
             .query(f"Scenario=='{self.config.get('LFG_collection_scenario')}'")
         )
 
@@ -453,7 +466,8 @@ class LFG:
             # todo: pull gas collection efficiency by landfill operation year as df, merge dfs, then multiply
             df_agg['methane_captured'] = (
                     df_agg['methane_generated']
-                    * self.return_gas_collection_efficiency(material_lfg_collection_efficiencies, material))
+                    * self.return_annual_lfg_collection_efficiency(self, annual_lfg_collection_efficiencies, df_material['yearDiff']))
+            #todo: pull year value from df_material
             df_agg['methane_emitted'] = df_agg['methane_generated'] - df_agg['methane_captured']
 
             # Rename columns to include material name

@@ -41,5 +41,5 @@ default_k_values: Barlaz  # False, IPCC, Barlaz
 #  paper: 0.07
 
 ## Landfill Gas Recovery Options
-LFG_recovery: Recover energy  # False, national_average, recover_energy, flare
-LFG_collection_scenario: Typical operation  # False, national_average, typical, worst_case, aggressive, california
+LFG_recovery: Recover energy  # False, recover_energy, flare
+LFG_collection_scenario: Typical  # False, typical, worst_case, aggressive, california
