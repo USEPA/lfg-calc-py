@@ -467,8 +467,9 @@ class LFG:
             df_agg['methane_captured'] = (
                     df_agg['methane_generated']
                     * self.return_annual_lfg_collection_efficiency(self, annual_lfg_collection_efficiencies, df_material['yearDiff']))
-            #todo: pull year value from df_material
-            df_agg['methane_emitted'] = df_agg['methane_generated'] - df_agg['methane_captured']
+            # todo: pull year value from df_material
+            # Methane emitted is 90% to reflect 10% methane oxidized
+            df_agg['methane_emitted'] = (df_agg['methane_generated'] - df_agg['methane_captured']) * 0.9
 
             # Rename columns to include material name
             df_agg.rename(columns={
