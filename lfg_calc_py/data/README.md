@@ -9,7 +9,7 @@ IPCC_Waste_specific_k-values.csv: 2006 IPCC Guidelines for National Greenhouse G
 
 ## Gas Collection Efficiency
 
-LFG_collection_scenarios_values: From literature by Barlaz et al. \
+LFG_collection_scenario_values: From literature by Barlaz et al. \
 https://www.epa.gov/sites/default/files/2016-03/documents/warm_decay_rate_structure_10_30_2009.pdf
 
 WARM_GasCollectionEfficiencies_v1: From literature by Barlaz et al. \

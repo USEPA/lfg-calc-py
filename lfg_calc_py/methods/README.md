@@ -20,9 +20,9 @@ year of deposition
 2. _LFG_recovery_: required, bool, whether landfill gas is being recovered or not
 3. _LFG_collection_scenario_: required, str, efficiencies for LFG collection over the landfill life
    1. False: landfill gas not collected
-   2. Typical: 
+   2. Typical: typical landfill gas collection scenario
    3. Worst-case:
-   4. Aggressive:
+   4. Aggressive: aggressive landfill gas collection scenario
    5. California:
 4. _landfill_close_: optional, int
 5. _landfill_life_: optional, int
