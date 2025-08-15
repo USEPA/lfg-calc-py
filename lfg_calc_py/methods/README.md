@@ -39,24 +39,25 @@ default parameters not used. Values above 0.1 should be supported with documenta
 must be metric tonnes CH4; unit conversion not yet supported.
 
 ## Landfill physical characteristics
-1. _state_: required, str, the state where the landfill is built
-2. _moisture_conditions_: required, str, annual precipitation at landfill in alignment with WARM
+
+[//]: # (1. _state_: required, str, the state where the landfill is built)
+1. _moisture_conditions_: required, str, annual precipitation at landfill in alignment with WARM
    1. Dry: <20 inches of precipitation per year
    3. Moderate: 20-40 inches of precipitation per year
    4. Wet: >40 inches of precipitation per year
    5. National average: weighted average based on share of waste received at each condition type
    6. Bioreactor: Water is added until the moisture content reaches 40% moisture on a
    wet weight basis
-3. _LFG_recovery_: required, bool, whether landfill gas is being recovered or not
-3. _LFG_collection_scenario_: required, str, efficiencies for LFG collection over the landfill life
+1. _LFG_recovery_: required, bool, whether landfill gas is being recovered or not
+1. _LFG_collection_scenario_: required, str, efficiencies for LFG collection over the landfill life
    1. False: landfill gas not collected
    2. Typical: typical landfill gas collection scenario
    3. Worst-case: collection under EPA New Source Performance Standards
    4. Aggressive: gas collection for bioreactor operation
    5. California: gas collection scenario for California
-4. _landfill_close_: optional, int, the year the landfill is expected to close and the year at which the landfill gas 
+1. _landfill_close_: optional, int, the year the landfill is expected to close and the year at which the landfill gas 
 calculation will end if calc_year is not specified
-10. _landfill_lifespan_: optional, int, the number of years the landfill remains open after the waste is disposed. Also 
+1. _landfill_lifespan_: optional, int, the number of years the landfill remains open after the waste is disposed. Also 
 the number of years for which the calculation will run, if neither calc_year nor landfill_close are specified. Required
 if default parameters not used and neither calc_year nor landfill_close are specified.
 
