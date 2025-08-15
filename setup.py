@@ -5,10 +5,10 @@ Setup for landfill package
 from setuptools import setup, find_packages
 
 setup(
-    name='landfill',
-    version='0.0.1',
+    name='lfg-calc-py',
+    version='0.1.0',
     packages=find_packages(),
-    package_dir={'landfill': 'landfill'},
+    package_dir={'lfg-calc-py': 'lfg-calc-py'},
     include_package_data=True,
     python_requires=">=3.11",
     install_requires=[
@@ -22,9 +22,7 @@ setup(
     ],
     url='https://github.com/USEPA/FLOWSA',
     license='MIT',
-    author='Katherine Latoff, Catherine Birney, Andrew Beck, Max Krause, and Wesley '
-           'Ingwersen',
-    author_email='ingwersen.wesley@epa.gov',
+    author='Katherine Latoff, Catherine Birney, Max Krause, and P. Ozge Kaplan',
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: IDE",
