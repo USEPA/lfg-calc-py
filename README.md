@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![DOI](https://zenodo.org/badge/932901632.svg)](https://doi.org/10.5281/zenodo.16884460)
+<!-- badges: end -->
+
 # lfg-calc-py
 
 A landfill gas generation and emissions calculator in Python. 
