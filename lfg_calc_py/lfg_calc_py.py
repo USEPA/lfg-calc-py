@@ -22,8 +22,8 @@ from lfg_calc_py.lfg_log import reset_log_file, log
 import lfg_calc_py.lfg_yaml as lfg_yaml
 # from lfg_calc_py.validation import check_if_landfill_is_full
 
-with open(settings.datapath / 'lfg_config.yaml') as f:
-    lfg_config = lfg_yaml.load(f)
+# with open(settings.datapath / 'lfg_config.yaml') as f:
+#     lfg_config = lfg_yaml.load(f)
 
 
 class LFG:

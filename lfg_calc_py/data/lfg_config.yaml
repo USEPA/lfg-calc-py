@@ -1,5 +1,6 @@
-lfg_fields:
+# Configuration file defining output fields and column order
 
-lfg_column_order:
-
-
+#lfg_fields:
+#
+#lfg_column_order:
+#
