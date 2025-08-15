@@ -1,6 +1,31 @@
 # lfg-calc-py
 
-A landfill gas generation and emissions calculator in Python
+A landfill gas generation and emissions calculator in Python. 
+
+Calculates material-specific annual methane generation, capture, and emissions from a single year of waste disposal over the lifespan of a landfill.
+
+Calculates landfill gas emissions for 21 materials identified in [USEPA's Waste Reduction Model](https://www.epa.gov/waste-reduction-model), based on:
+- Material-specific decay rates
+- Landfill moisture conditions
+- Landfill gas recovery options
+- Methane oxidation
+
+Outputs
+- Results csv
+- Metadata json
+
+
+## Examples
+Additional example code can be found in the [examples](github.com/USEPA/lfg-calc-py/tree/main/examples) folder.
+
+## Model Documentation and Assumptions
+Model assumptions are documented in the [docs](https://github.com/USEPA/lfg-calc-py/tree/main/docs/assumptions.md) folder.
+
+## Installation
+`pip install git+https://github.com/USEPA/lfg-calc-py.git@vX.X.X#egg=lfg-calc-py`
+
+where vX.X.X can be replaced with the version you wish to install under 
+[Releases](https://github.com/USEPA/lfg-calc-py/releases).
 
 
 # Disclaimer

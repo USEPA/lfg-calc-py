@@ -13,9 +13,8 @@ keywords = ["landfill", "methane emissions"]
 authors = [
     {name = "Katherine Latoff"},
     {name = "Catherine Birney"},
-    {name = "Andrew Beck"},
     {name = "Max Krause"},
-    {name = "Wesley W. Ingwersen", email = "ingwersen.wesley@epa.org"},
+    {name = "P. Ozge Kaplan"},
 ]
 dependencies = [
     'StEWI @ git+https://github.com/USEPA/standardizedinventories.git#egg=StEWI',

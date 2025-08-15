@@ -1,23 +1,85 @@
-Material,Landfill moisture conditions,,,
-,Dry (k=0.02),Average (k = 0.04),Wet (k = 0.08),Bioreactor (k = 0.12)
-Branches,0.008,0.015,0.03,0.045
-Grass,0.149,0.298,0.596,0.894
-Leaves,0.086,0.171,0.342,0.513
-Food Waste,0.072,0.144,0.288,0.432
-Corrugated Containers,0.01,0.02,0.04,0.06
-Magazines/Third-class Mail,0.061,0.122,0.244,0.366
-Newspaper,0.017,0.033,0.066,0.099
-Office Paper,0.015,0.029,0.058,0.087
-Phonebooks,0.017,0.033,0.066,0.099
-Textbooks,0.015,0.029,0.058,0.087
-Dimensional Lumber,0.041,0.082,0.164,0.246
-Medium-density Fiberboard,0.032,0.064,0.129,0.193
-Wood Flooring,0.016,0.033,0.065,0.098
-Mixed MSW,0.02,0.04,0.08,0.12
-Average of newspaper and office paper,0.016,0.031,0.062,0.093
-Mixed Paper (general),0.017,0.033,0.066,0.099
-Mixed Paper (primarily residential),0.017,0.034,0.069,0.103
-Mixed Paper (primarily from offices),0.032,0.063,0.126,0.189
-Yard trimmings,0.098,0.196,0.391,0.587
-Mixed organics,0.084,0.168,0.336,0.504
-Mixed Recyclables,0.013,0.026,0.052,0.078
+Material,Landfill_Moisture_Conditions,Decay_Rate
+Average of newspaper and office paper,Dry,0.016
+Average of newspaper and office paper,Moderate,0.031
+Average of newspaper and office paper,Wet,0.062
+Average of newspaper and office paper,Bioreactor,0.093
+Branches,Dry,0.008
+Branches,Moderate,0.015
+Branches,Wet,0.03
+Branches,Bioreactor,0.045
+Corrugated Containers,Dry,0.01
+Corrugated Containers,Moderate,0.02
+Corrugated Containers,Wet,0.04
+Corrugated Containers,Bioreactor,0.06
+Dimensional Lumber,Dry,0.041
+Dimensional Lumber,Moderate,0.082
+Dimensional Lumber,Wet,0.164
+Dimensional Lumber,Bioreactor,0.246
+Food Waste,Dry,0.072
+Food Waste,Moderate,0.144
+Food Waste,Wet,0.288
+Food Waste,Bioreactor,0.432
+Grass,Dry,0.149
+Grass,Moderate,0.298
+Grass,Wet,0.596
+Grass,Bioreactor,0.894
+Leaves,Dry,0.086
+Leaves,Moderate,0.171
+Leaves,Wet,0.342
+Leaves,Bioreactor,0.513
+Magazines/Third-class Mail,Dry,0.061
+Magazines/Third-class Mail,Moderate,0.122
+Magazines/Third-class Mail,Wet,0.244
+Magazines/Third-class Mail,Bioreactor,0.366
+Medium-density Fiberboard,Dry,0.032
+Medium-density Fiberboard,Moderate,0.064
+Medium-density Fiberboard,Wet,0.129
+Medium-density Fiberboard,Bioreactor,0.193
+Mixed MSW,Dry,0.02
+Mixed MSW,Moderate,0.04
+Mixed MSW,Wet,0.08
+Mixed MSW,Bioreactor,0.12
+Mixed Paper (general),Dry,0.017
+Mixed Paper (general),Moderate,0.033
+Mixed Paper (general),Wet,0.066
+Mixed Paper (general),Bioreactor,0.099
+Mixed Paper (primarily from offices),Dry,0.032
+Mixed Paper (primarily from offices),Moderate,0.063
+Mixed Paper (primarily from offices),Wet,0.126
+Mixed Paper (primarily from offices),Bioreactor,0.189
+Mixed Paper (primarily residential),Dry,0.017
+Mixed Paper (primarily residential),Moderate,0.034
+Mixed Paper (primarily residential),Wet,0.069
+Mixed Paper (primarily residential),Bioreactor,0.103
+Mixed Recyclables,Dry,0.013
+Mixed Recyclables,Moderate,0.026
+Mixed Recyclables,Wet,0.052
+Mixed Recyclables,Bioreactor,0.078
+Mixed organics,Dry,0.084
+Mixed organics,Moderate,0.168
+Mixed organics,Wet,0.336
+Mixed organics,Bioreactor,0.504
+Newspaper,Dry,0.017
+Newspaper,Moderate,0.033
+Newspaper,Wet,0.066
+Newspaper,Bioreactor,0.099
+Office Paper,Dry,0.015
+Office Paper,Moderate,0.029
+Office Paper,Wet,0.058
+Office Paper,Bioreactor,0.087
+Phonebooks,Dry,0.017
+Phonebooks,Moderate,0.033
+Phonebooks,Wet,0.066
+Phonebooks,Bioreactor,0.099
+Textbooks,Dry,0.015
+Textbooks,Moderate,0.029
+Textbooks,Wet,0.058
+Textbooks,Bioreactor,0.087
+Wood Flooring,Dry,0.016
+Wood Flooring,Moderate,0.033
+Wood Flooring,Wet,0.065
+Wood Flooring,Bioreactor,0.098
+Yard Trimmings,Dry,0.098
+Yard Trimmings,Moderate,0.196
+Yard Trimmings,Wet,0.391
+Yard Trimmings,Bioreactor,0.587
