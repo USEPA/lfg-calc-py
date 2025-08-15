@@ -13,7 +13,7 @@ from lfg_calc_py.settings import paths, PKG, PKG_VERSION_NUMBER, WRITE_FORMAT, \
     GIT_HASH, GIT_HASH_LONG
 
 
-def set_meta(name_data, category=None):
+def set_meta(name_data, category="LFG"):
     """
     Create meta data for a parquet
     :param name_data: string, name of df

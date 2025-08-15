@@ -126,8 +126,7 @@ class LFG:
                 log.info(f'{file_metadata.name_data} {file_metadata.category} '
                          f'not found in {paths.local_path}')
             else:
-                log.info(f'Successfully loaded {file_metadata.name_data} '
-                         f'{file_metadata.category} from {output_path}')
+                log.info(f'Successfully loaded {file_metadata.name_data} from {output_path}')
                 break
         else:
             log.error(f'{file_metadata.name_data} {file_metadata.category} '
