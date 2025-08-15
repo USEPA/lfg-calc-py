@@ -11,4 +11,4 @@ methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic 
 landfill_lifespan: 100 # Default lifespan of landfill from open to close
 methane_oxidation: True # Whether methane undergoes oxidation
 methane_oxidation_fraction: 0.1 # Fractional amount of generated methane that is oxidized
-
+unit: Tonnes CH4 # Unit of methane emissions

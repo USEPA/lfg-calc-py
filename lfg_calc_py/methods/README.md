@@ -13,6 +13,7 @@ into CH4. Default is 1.
 7. _landfill_lifespan_: int, the number of years the landfill remains open after the waste is disposed. Also 
 the number of years for which the calculation will run, if neither calc_year nor landfill_close are specified. 
 Default is 100 (WARM default).
+8. _unit_: unit of measurement for methane gas. Default is tonnes CH4.
 
 ## Model parameters
 1. _model_type_: required, str, YAML file format for model (single-year input vs multi-year input)
@@ -33,7 +34,9 @@ into CH4. Required if default parameters not used.
 parameters not used.
 9. _methane_oxidation_fraction_: optional, fpo, fraction of generated methane that undergoes oxidation. Required if
 default parameters not used. Values above 0.1 should be supported with documentation.
-10. _calc_year_: optional, the year at which the landfill gas calculation will end
+10. _calc_year_: optional, int, the year at which the landfill gas calculation will end
+11. _unit_: optional, str, the unit of measurement of methane gas. Required if default parameters not used. Currently 
+must be metric tonnes CH4; unit conversion not yet supported.
 
 ## Landfill physical characteristics
 1. _state_: required, str, the state where the landfill is built
