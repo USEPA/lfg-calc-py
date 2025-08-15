@@ -2,15 +2,32 @@
 
 ## Parameters in "Default Parameters" YAML file
 1. _degradable_organic_carbon_: fpo, fractional amount of degradable organic carbon in the year of
-deposition, Mg C / Mg waste
+deposition, Mg C / Mg waste. Default is 0.17.
 2. _degradable_organic_carbon_fraction_: fpo, fraction of the degradable organic carbon that can be 
-decomposed
-3. _methane_content_: fpo, fraction by volume of methane in the landfill gas
+decomposed. Default is 0.5
+3. _methane_content_: fpo, fraction by volume of methane in the landfill gas. Default is 0.5.
 4. _methane_fraction_: fpo, fractional methane correction factor for aerobic decomposition in the
-year of deposition
+year of deposition. Default is 1.
+
+## Model parameters
+1. _model_type_: required, str, YAML file format for model (single-year input vs multi-year input)
+2. _use_default_model_parameters_: required, bool, whether the default parameters should be used
+3. _degradable_organic_carbon_: optional, fpo, fractional amount of degradable organic carbon in the year of
+deposition, Mg C / Mg waste. Required if default parameters not used.
+4. _degradable_organic_carbon_fraction_: optional, fpo, fraction of the degradable organic carbon that can be 
+decomposed. Required if default parameters not used.
+5. _methane_content_: optional, fpo, fraction by volume of methane in the landfill gas. Required if default
+parameters not used.
+6. _methane_fraction_: optional, fpo, fractional methane correction factor for aerobic decomposition in the
+year of deposition. Required if default parameters not used.
+7. _default_decay_rates_: required, str, source of decay rate values
+   8. Barlaz: use decay rates from Barlaz literature (WARM default)
+   9. IPCC: use decay rates from IPCC literature (currently not supported)
+   10. False: decay rates are not imported from literature, user must provide
+8. _material_decay_rates_: optional, list, 
 
 ## Landfill physical characteristics
-1. _moisture_conditions_: required, fpo, annual precipitation at landfill in alignment with WARM
+1. _moisture_conditions_: required, str, annual precipitation at landfill in alignment with WARM
    1. Dry: <20 inches of precipitation per year
    3. Moderate: 20-40 inches of precipitation per year
    4. Wet: >40 inches of precipitation per year
@@ -21,16 +38,14 @@ year of deposition
 3. _LFG_collection_scenario_: required, str, efficiencies for LFG collection over the landfill life
    1. False: landfill gas not collected
    2. Typical: typical landfill gas collection scenario
-   3. Worst-case:
-   4. Aggressive: aggressive landfill gas collection scenario
-   5. California:
-4. _landfill_close_: optional, int
-5. _landfill_life_: optional, int
+   3. Worst-case: collection under EPA New Source Performance Standards
+   4. Aggressive: gas collection for bioreactor operation
+   5. California: gas collection scenario that complies with California state law
+4. _landfill_close_: optional, int, the year the landfill closes
+5. _landfill_lifespan_: required, int, the total lifespan of the landfill
 
-## Method YAMLs
-1. _model_type_: required, bool, YAML file format for model (single-year input vs multi-year input)
 
-LandGEM
+## Multi-year-specific
 2. _landfill_name_: optional, str, landfill name
 2. _GHGRP_ID_: optional, str, landfill ID
    - **2a.** _landfill_open_: int, the year the landfill opened

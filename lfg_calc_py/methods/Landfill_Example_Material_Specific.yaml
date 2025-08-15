@@ -14,7 +14,7 @@ degradable_organic_carbon: 0.17 # fractional amount of degradable organic carbon
 degradable_organic_carbon_fraction: 0.5 # fraction of the degradable organic carbon that can be
 # decomposed
 methane_content: 0.50 # Fraction by volume of methane in the landfill gas
-methane_correction_factor: 1 # Methane correction factor (fraction) for aerobic decomposition in the
+methane_fraction: 1 # Methane correction factor (fraction) for aerobic decomposition in the
 # year of deposition
 landfill_lifespan: 100 # Default lifespan of landfill from open to close
 
@@ -23,17 +23,17 @@ landfill_lifespan: 100 # Default lifespan of landfill from open to close
 
 # Fraction of annual waste by material
 material_ratios:
-  Mixed MSW: 0.25
+  Food Waste: 0.5
     # incorporate year later
     #"1960-2018": 0.25
     #"2018-2023": 0.23
-  Corrugated Containers: 0.75
+  Corrugated Containers: 0.5
     #"1960-2018": 0.75
     #"2018-2023": 0.77
 
 ## Decay Rates (k Values)
 # use_default_decay_rates: False  # True, False - draft decay rate import, not implemented
-default_k_values: Barlaz  # False, IPCC, Barlaz
+default_decay_rates: Barlaz  # False, IPCC, Barlaz
 #k: 0.05  # Methane generation rate, 1/year
 # override default decay rates or user provides all decay rates
 #material_decay_rates:
@@ -41,5 +41,5 @@ default_k_values: Barlaz  # False, IPCC, Barlaz
 #  paper: 0.07
 
 ## Landfill Gas Recovery Options
-LFG_recovery: Recover energy  # False, recover_energy, flare
+LFG_recovery: False  # False, recover_energy, flare
 LFG_collection_scenario: Typical  # False, typical, worst_case, aggressive, california
