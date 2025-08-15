@@ -1,6 +1,8 @@
 # lfg-calc-py
 
-A landfill gas generation and emissions calculator in Python
+A landfill gas generation and emissions calculator in Python. 
+
+Calculates material-specific annual emissions from a single year of waste disposal over the lifespan of a landfill. 
 
 
 # Disclaimer

@@ -1,0 +1,22 @@
+# Example landfill emission model with a single year of waste disposal for food waste and
+# corrugated containers
+
+## Landfill characteristics
+moisture_conditions: Dry # dry, moderate, wet, bioreactor, national average
+waste_acceptance_rate: { 2023: 100000
+                        }
+
+## Model Parameters - load default landfill parameters
+!include:Default_Landfill_Parameters.yaml
+
+# Fraction of annual waste by material
+material_ratios:
+  Food Waste: 0.5
+  Corrugated Containers: 0.5
+
+## Decay Rates
+default_decay_rates: Barlaz  # False, IPCC, Barlaz
+
+## Landfill Gas Recovery Options
+LFG_recovery: False  # False, recover_energy, flare
+LFG_collection_scenario: Typical  # False, typical, worst_case, aggressive, california

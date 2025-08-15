@@ -1,0 +1,20 @@
+# Common parameters used throughout methods
+
+## Model Parameters
+
+# Fractional amount of degradable organic carbon in the year of deposition, Mg C / Mg waste
+degradable_organic_carbon: 0.17
+# Fraction of the degradable organic carbon that can be decomposed
+degradable_organic_carbon_fraction: 0.5
+# Fraction by volume of methane in the landfill gas
+methane_content: 0.50
+# Methane correction factor (fraction) for aerobic decomposition in the year of deposition
+methane_fraction: 1
+# Default lifespan of landfill from open to close
+landfill_lifespan: 100
+# Whether methane undergoes oxidation
+methane_oxidation: True  # True, False
+# Fractional amount of generated methane that is oxidized
+methane_oxidation_fraction: 0.1
+# Unit of methane emissions
+unit: Tonnes CH4
