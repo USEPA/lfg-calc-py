@@ -417,12 +417,17 @@ class LFG:
         )
         annual_lfg_collection_efficiencies['Year'] = annual_lfg_collection_efficiencies['Year'].astype(int)
 
+        # expand on the lfg collection efficiencies df to add values for years beyond year 15 after disposal
+        if self.config.get('LFG_collection_scenario') is False:
+            efficiency = 0
+        else:
+            efficiency = annual_lfg_collection_efficiencies.loc[annual_lfg_collection_efficiencies['Year'] == 15,
+            'Efficiency'].values[0]
+
         added_years = pd.DataFrame({
             'Scenario': self.config.get('LFG_collection_scenario'),
             'Year': range(16, self.config.get("landfill_lifespan") + 1),
-            'Efficiency': annual_lfg_collection_efficiencies.loc[
-                annual_lfg_collection_efficiencies['Year'] == 15,
-                'Efficiency'].values[0]
+            'Efficiency': efficiency
         })
 
         annual_lfg_collection_efficiencies = pd.concat([
@@ -507,7 +512,7 @@ class LFG:
         for c in ['Methane Generation', 'Methane Capture', 'Methane Emitted']:
             df_merge[f'Total {c}'] = df_merge.filter(like=c).sum(axis=1)
         df_merge['Unit'] = self.config.get("unit")
-        df_merge['Scenario'] = self.config.get("LFG_collection_scenario")
+        df_merge['LFG Collection Scenario'] = self.config.get("LFG_collection_scenario")
         df_merge.sort_values(by='Year', inplace=True)
 
         # todo: add columns for cumulative emissions for each material across years
