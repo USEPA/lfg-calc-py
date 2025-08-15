@@ -12,3 +12,6 @@ methane_content: 0.50
 methane_fraction: 1
 # Default lifespan of landfill from open to close
 landfill_lifespan: 100
+methane_oxidation: True  # True, False
+methane_oxidation_fraction: 0.1
+unit: Tonnes CH4
