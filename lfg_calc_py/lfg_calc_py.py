@@ -233,7 +233,7 @@ class LFG:
     def load_default_decay_rates(
             self: 'LFG',
     ):
-        source = self.config.get("default_k_values")
+        source = self.config.get("default_decay_rates")
         if source == "Barlaz":
             path = datapath/'WARM_Barlaz_Material_Decay_Rates.csv'
         # elif source == "IPCC":
@@ -295,21 +295,21 @@ class LFG:
                 material_ratio_df['Waste Type'] == material, 'Waste Fraction'].values[0])
 
 
-    def return_gas_collection_efficiency(
-            self: 'LFG',
-            material_lfg_collection_efficiencies,
-            material
-    ):
-        """
-        Return gas collection efficiency by material; return 0 value if LFG is not captured
-        :return:
-        """
-        try:
-            return float(material_lfg_collection_efficiencies.loc[
-                material_lfg_collection_efficiencies['Material'] == material,
-                self.config.get("moisture_conditions")].values[0])
-        except IndexError:
-            return 0
+    # def return_gas_collection_efficiency(
+    #         self: 'LFG',
+    #         material_lfg_collection_efficiencies,
+    #         material
+    # ):
+    #     """
+    #     Return gas collection efficiency by material; return 0 value if LFG is not captured
+    #     :return:
+    #     """
+    #     try:
+    #         return float(material_lfg_collection_efficiencies.loc[
+    #             material_lfg_collection_efficiencies['Material'] == material,
+    #             self.config.get("moisture_conditions")].values[0])
+    #     except IndexError:
+    #         return 0
 
 
     def return_annual_lfg_collection_efficiency(
@@ -409,11 +409,26 @@ class LFG:
         #     .query(f"Scenario=='{self.config.get('LFG_collection_scenario')}'")
         # )
         # Remove excess moisture scenarios
+
         annual_lfg_collection_efficiencies = (
             annual_lfg_collection_efficiencies[
                 ["Scenario", "Year", "Efficiency"]]
             .query(f"Scenario=='{self.config.get('LFG_collection_scenario')}'")
         )
+        annual_lfg_collection_efficiencies['Year'] = annual_lfg_collection_efficiencies['Year'].astype(int)
+
+        added_years = pd.DataFrame({
+            'Scenario': self.config.get('LFG_collection_scenario'),
+            'Year': range(16, self.config.get("landfill_lifespan") + 1),
+            'Efficiency': annual_lfg_collection_efficiencies.loc[
+                annual_lfg_collection_efficiencies['Year'] == 15,
+                'Efficiency'].values[0]
+        })
+
+        annual_lfg_collection_efficiencies = pd.concat([
+            annual_lfg_collection_efficiencies, added_years], ignore_index=True)
+        annual_lfg_collection_efficiencies = annual_lfg_collection_efficiencies.rename(columns={
+            'Scenario': 'Scenario', 'Year': 'landfillOperationYear', 'Efficiency': 'Efficiency'})
 
         # Methane calculation
 
@@ -451,7 +466,7 @@ class LFG:
             df_material['methane_generated'] = (
                 self.return_material_ratio(material_ratio_df, material)
                 * df_material['waste_acceptance']
-                * self.config.get("methane_correction_factor")
+                * self.config.get("methane_fraction")
                 * self.config.get("degradable_organic_carbon")
                 * self.config.get("degradable_organic_carbon_fraction")
                 * self.config.get("methane_content")
@@ -461,12 +476,19 @@ class LFG:
                    )
             )
 
+            df_material2 = pd.merge(df_material, annual_lfg_collection_efficiencies,
+                                    on='landfillOperationYear', how='inner')
+
+            df_material2['methane_captured'] = (
+                    df_material2['methane_generated']
+                    * df_material2['Efficiency']
+            )
+
             # Summarize methane metrics by landfill operation year
-            df_agg = df_material.groupby(['Year', 'landfillOperationYear'])['methane_generated'].sum().reset_index()
+            df_agg = df_material2.groupby(['Year', 'landfillOperationYear', 'Scenario'])[['methane_generated',
+                                                                                          'methane_captured']].sum().reset_index()
             # todo: pull gas collection efficiency by landfill operation year as df, merge dfs, then multiply
-            df_agg['methane_captured'] = (
-                    df_agg['methane_generated']
-                    * self.return_annual_lfg_collection_efficiency(self, annual_lfg_collection_efficiencies, df_material['yearDiff']))
+
             # todo: pull year value from df_material
             # Methane emitted is 90% to reflect 10% methane oxidized
             df_agg['methane_emitted'] = (df_agg['methane_generated'] - df_agg['methane_captured']) * 0.9
