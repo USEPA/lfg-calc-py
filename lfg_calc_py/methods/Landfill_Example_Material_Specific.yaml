@@ -7,16 +7,8 @@ moisture_conditions: Dry # dry, moderate, wet, bioreactor, national average
 waste_acceptance_rate: { 2023: 100000
                         }
 
-## Model Parameters
-# use_default_model_parameters: False  # True, False
-degradable_organic_carbon: 0.17 # fractional amount of degradable organic carbon in the year of
-# deposition, Mg C / Mg waste
-degradable_organic_carbon_fraction: 0.5 # fraction of the degradable organic carbon that can be
-# decomposed
-methane_content: 0.50 # Fraction by volume of methane in the landfill gas
-methane_fraction: 1 # Methane correction factor (fraction) for aerobic decomposition in the
-# year of deposition
-landfill_lifespan: 100 # Default lifespan of landfill from open to close
+## Model Parameters - load default landfill parameters
+!include:Default_Landfill_Parameters.yaml
 
 #calc_year: 2024
 
