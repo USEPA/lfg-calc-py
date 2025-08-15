@@ -2,7 +2,7 @@
 # corrugated containers
 
 ## Landfill characteristics
-moisture_conditions: Dry # dry, moderate, wet, bioreactor, national average
+moisture_conditions: Dry # Dry, Moderate, Wet, Bioreactor, National Average
 waste_acceptance_rate:
   2023: 100000
 
