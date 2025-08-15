@@ -44,7 +44,6 @@ must be metric tonnes CH4; unit conversion not yet supported.
    1. Dry: <20 inches of precipitation per year
    3. Moderate: 20-40 inches of precipitation per year
    4. Wet: >40 inches of precipitation per year
-   5. National average: weighted average based on share of waste received at each condition type
    6. Bioreactor: Water is added until the moisture content reaches 40% moisture on a
    wet weight basis
 3. _LFG_recovery_: required, bool, whether landfill gas is being recovered or not
