@@ -16,7 +16,7 @@ Outputs
 
 
 ## Examples
-Additional example code can be found in the [examples](github.com/USEPA/lfg-calc-py/tree/main/examples) folder.
+Example code can be found in the [examples](https://github.com/USEPA/lfg-calc-py/tree/main/examples) folder.
 
 ## Model Documentation and Assumptions
 Model assumptions are documented in the [docs](https://github.com/USEPA/lfg-calc-py/tree/main/docs/assumptions.md) folder.
