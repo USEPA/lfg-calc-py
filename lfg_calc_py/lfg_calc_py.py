@@ -487,11 +487,9 @@ class LFG:
             # Summarize methane metrics by landfill operation year
             df_agg = df_material2.groupby(['Year', 'landfillOperationYear', 'Scenario'])[['methane_generated',
                                                                                           'methane_captured']].sum().reset_index()
-            # todo: pull gas collection efficiency by landfill operation year as df, merge dfs, then multiply
 
-            # todo: pull year value from df_material
-            # Methane emitted is 90% to reflect 10% methane oxidized
-            df_agg['methane_emitted'] = (df_agg['methane_generated'] - df_agg['methane_captured']) * 0.9
+            df_agg['methane_emitted'] = ((df_agg['methane_generated'] - df_agg['methane_captured'])
+                                         * (1 - self.config.get("methane_oxidation_fraction")))
 
             # Rename columns to include material name
             df_agg.rename(columns={
@@ -505,7 +503,7 @@ class LFG:
 
         # Merge all material summaries into final result
         df_merge = reduce(lambda left, right: pd.merge(left, right, on=['Year', 'landfillOperationYear'], how='outer'), emissions_data)
-        df_merge['Unit'] = 'Tonnes CH4' # todo: don't hardcode, pull in from default params?
+        df_merge['Unit'] = self.config.get("unit")
         df_merge.sort_values(by='Year', inplace=True)
 
 
