@@ -3,8 +3,8 @@
 
 ## Landfill characteristics
 moisture_conditions: Dry # dry, moderate, wet, bioreactor, national average
-waste_acceptance_rate: { 2023: 100000
-                        }
+waste_acceptance_rate:
+  2023: 100000
 
 ## Model Parameters - load default landfill parameters
 
@@ -25,8 +25,6 @@ methane_oxidation_fraction: 0.1
 # Unit of methane emissions
 unit: "Tonnes CH4"
 
-
-
 # Fraction of annual waste by material
 material_ratios:
   "Food Waste": 0.5
@@ -37,4 +35,4 @@ default_decay_rates: Barlaz  # False, IPCC, Barlaz
 
 ## Landfill Gas Recovery Options
 LFG_recovery: False  # False, recover_energy, flare
-LFG_collection_scenario: Typical  # False, typical, worst_case, aggressive, california
+LFG_collection_scenario: Typical  # False, Typical, Worst-case, Aggressive, California
