@@ -5,6 +5,9 @@ GHGRP_ID: 1000216
 landfill_open: 1960
 landfill_close: 2027
 max_years: 80 # Maximum number of years for which the landfill may accept waste
+material_ratios:
+  Food Waste: 0.4
+  Corrugated Containers: 0.6
 waste_acceptance_rate: {'1960 - 1992': 20665,
                         '1993 - 1999': 60310,
                         '2000': 69434,
