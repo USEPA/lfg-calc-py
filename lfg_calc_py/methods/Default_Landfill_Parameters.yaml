@@ -17,4 +17,4 @@ methane_oxidation: True  # True, False
 # Fractional amount of generated methane that is oxidized
 methane_oxidation_fraction: 0.1
 # Unit of methane emissions
-unit: Tonnes CH4
+unit: "Tonnes CH4"

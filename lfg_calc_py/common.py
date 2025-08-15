@@ -4,7 +4,7 @@ import re
 import pandas as pd
 
 from lfg_calc_py.settings import methodpath, datapath
-import lfg_calc_py.lfg_yaml as lfg_calc_py_yaml
+import lfg_calc_py.lfg_yaml
 from lfg_calc_py.lfg_log import log
 
 
@@ -43,7 +43,7 @@ def load_yaml_dict(filename, filepath=None, **kwargs):
 
     try:
         with open(yaml_path, 'r', encoding='utf-8') as f:
-            config = lfg_calc_py_yaml.load(f, filepath)
+            config = lfg_calc_py.lfg_yaml.load(f, filepath)
     except FileNotFoundError:
         raise KeyError(f"{filename} not found in {folder}")
 
